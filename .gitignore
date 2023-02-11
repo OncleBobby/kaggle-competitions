@@ -127,3 +127,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+competitions/ens/fraudeurs_2023/data/*
