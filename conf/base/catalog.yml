@@ -2,3 +2,20 @@
 #
 # Documentation for this file format can be found in "The Data Catalog"
 # Link: https://kedro.readthedocs.io/en/stable/data/data_catalog.html
+x_train:
+  type: pandas.CSVDataSet
+  filepath: ./data/01_raw/X_train_G3tdtEn.csv
+y_train:
+  type: pandas.CSVDataSet
+  filepath: ./data/01_raw/Y_train_2_XPXJDyy.csv
+x_test:
+  type: pandas.CSVDataSet
+  filepath: ./data/01_raw/X_test_8skS2ey.csv
+y_test:
+  type: pandas.CSVDataSet
+  filepath: ./data/01_raw/Y_train_2_XPXJDyy.csv
+
+benchmark_model: # simple example without compression
+  type: pickle.PickleDataSet
+  filepath: data/06_models/benchmark_model.pkl
+  backend: pickle
