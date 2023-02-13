@@ -3,9 +3,8 @@ from .model.scope import *
 from .model.predict import *
 from .model.prepare import *
 
-
-prepare_x_node = node(func=prepare_x, inputs=['x_train'], outputs="x", name="prepare_x")
-prepare_y_node = node(func=prepare_y, inputs=['y_train'], outputs="y", name="prepare_y")
-
-predict_benchmark_node = node(func=predict_benchmark, inputs=['x'], outputs="y_pred_proba", name="predict_benchmark")
-score_node = node(func=score, inputs=['y', 'y_pred_proba'], outputs="score_node", name="score")
+prepare_x_node = node(func=prepare_x, inputs=['x_train'], outputs='x_train2')
+prepare_y_node = node(func=prepare_y, inputs=['y_train'], outputs='y_train2')
+train_model_node = node(func=train_decision_tree_regressor, inputs=['x_train2', 'y_train2'], outputs='model')
+prepare_x_test_node = node(func=prepare_x, inputs=['x_test'], outputs='x_test2')
+predict_node = node(func=predict, inputs=['model', 'x_test2'], outputs='y_prediction')
