@@ -4,10 +4,9 @@ def prepare_x(x):
     columns = ['ID', 'Nb_of_items']
     for i in range(1, 25):
         columns.append(f'Nbr_of_prod_purchas{i}')
-        # print(f'prepare_x={x[columns].fillna(0).tail}')
+        columns.append(f'cash_price{i}')
     return x[columns].fillna(0)
 def prepare_y(y):
-    # print(f"prepare_y={y[['ID', 'fraud_flag']].tail}")
     return y[['ID', 'fraud_flag']]
 def split_train_set(x, y):
     from sklearn.model_selection import train_test_split

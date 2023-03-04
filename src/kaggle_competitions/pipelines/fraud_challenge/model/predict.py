@@ -1,11 +1,19 @@
-import numpy as np, pandas as pd
+import pandas as pd
 
 def train_decision_tree_regressor(x, y):
-    from sklearn.tree import DecisionTreeRegressor
-    model = DecisionTreeRegressor(random_state=1)
+    from sklearn.ensemble import GradientBoostingClassifier
+    model = GradientBoostingClassifier()
+    y = y[['fraud_flag']]
     model.fit(x, y) 
     return model
 def predict(model, x):
-    y_predict =  pd.DataFrame(model.predict(x), columns=['ID', 'fraud_flag']).astype({'ID':'int', 'fraud_flag': 'int'})
-    print(f"y_predict={y_predict.tail}")
-    return y_predict
+    
+    y_predict_proba =  model.predict_proba(x)
+#    y_predict =  model.predict(x)
+
+    result = x['ID'].copy()
+
+    df = pd.DataFrame(result, columns=['ID'])
+    df['fraud_flag'] = [y[1] for y in y_predict_proba]
+
+    return df

@@ -8,22 +8,22 @@ x_train:
 y_train:
   type: pandas.CSVDataSet
   filepath: ./data/01_raw/Y_train_2_XPXJDyy.csv
+  load_args:
+    dtype:
+      fraud_flag: float
 x_test:
   type: pandas.CSVDataSet
   filepath: ./data/01_raw/X_test_8skS2ey.csv
 y_test:
   type: pandas.CSVDataSet
   filepath: ./data/01_raw/Y_train_2_XPXJDyy.csv
-
 model:
   type: pickle.PickleDataSet
   filepath: data/06_models/model.pkl
   backend: pickle
-
 y_prediction:
   type: pandas.CSVDataSet
   filepath: ./data/07_model_output/y_prediction.csv
   save_args:
     index: True
-
   
