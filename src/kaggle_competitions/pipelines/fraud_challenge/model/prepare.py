@@ -1,11 +1,5 @@
-import numpy as np, logging
+import pandas, logging
 
-def prepare_x(x):
-    columns = ['ID', 'Nb_of_items']
-    for i in range(1, 25):
-        columns.append(f'Nbr_of_prod_purchas{i}')
-        columns.append(f'cash_price{i}')
-    return x[columns].fillna(0)
 def prepare_y(y):
     return y[['ID', 'fraud_flag']]
 def split_train_set(x, y):

@@ -11,6 +11,14 @@
             "console": "integratedTerminal",
             "module": "kedro",
             "args": ["run", "--pipeline", "fraud_challenge"]
+        },
+        {
+            "name": "fraud_challenge --only_missing",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "module": "kedro",
+            "args": ["run", "--only_missing", "--pipeline", "fraud_challenge"]
         }
     ]
 }

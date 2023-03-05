@@ -2,28 +2,54 @@
 #
 # Documentation for this file format can be found in "The Data Catalog"
 # Link: https://kedro.readthedocs.io/en/stable/data/data_catalog.html
+
+# 01_raw
 x_train:
   type: pandas.CSVDataSet
   filepath: ./data/01_raw/X_train_G3tdtEn.csv
+  # filepath: ./data/01_raw/X_train_short.csv
 y_train:
   type: pandas.CSVDataSet
+  # filepath: ./data/01_raw/Y_train_short.csv
   filepath: ./data/01_raw/Y_train_2_XPXJDyy.csv
   load_args:
     dtype:
       fraud_flag: float
 x_test:
   type: pandas.CSVDataSet
+  # filepath: ./data/01_raw/X_train_short.csv
   filepath: ./data/01_raw/X_test_8skS2ey.csv
 y_test:
   type: pandas.CSVDataSet
+  # filepath: ./data/01_raw/Y_train_short.csv
   filepath: ./data/01_raw/Y_train_2_XPXJDyy.csv
+
+# 04_feature
+item_encoder:
+  type: pickle.PickleDataSet
+  filepath: data/04_feature/item_encoder.pkl
+  backend: pickle
+
+# 05_model_input
+x_train_transformed:
+  type: pandas.CSVDataSet
+  filepath: ./data/05_model_input/x_train_transformed.csv
+x_test_transformed:
+  type: pandas.CSVDataSet
+  filepath: ./data/05_model_input/x_test_transformed.csv
+y_test_transformed:
+  type: pandas.CSVDataSet
+  filepath: ./data/05_model_input/y_test_transformed.csv
+
+# 06_models
 model:
   type: pickle.PickleDataSet
   filepath: data/06_models/model.pkl
   backend: pickle
+
+# 07_model_output
 y_prediction:
   type: pandas.CSVDataSet
   filepath: ./data/07_model_output/y_prediction.csv
   save_args:
     index: True
-  
