@@ -10,9 +10,9 @@ def score(y_true, y_pred_proba):
     Returns:
         float
     '''   
-    y_true_sorted = y_true.sort_values(by='ID').reset_index(drop=True)
-    y_pred_proba_sorted = y_pred_proba.sort_values(by='ID').reset_index(drop=True)
+    y_true_sorted = y_true.sort_values(by='ID').reset_index(drop=True)[['ID', 'fraud_flag']]
+    y_pred_proba_sorted = y_pred_proba.sort_values(by='ID').reset_index(drop=True)[['ID', 'fraud_flag']]
+
     score = average_precision_score(np.ravel(y_true_sorted.iloc[:, 1]), np.ravel(y_pred_proba_sorted.iloc[:, 1]))
     logging.info(f'score={score}')
-    print(f'score={score}')
     return score

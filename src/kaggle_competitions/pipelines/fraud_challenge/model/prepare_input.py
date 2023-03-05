@@ -20,7 +20,7 @@ def prepare_x(x, item_encoder, item_labels):
             columns.append(encoded_column)
 
     x_transformed = _update_columns(x_transformed, item_encoder, column_patterns)
-        # print(f'adding column for {label} -> {encoded_label} ({i+1}/{len(item_labels)}) ...')            
+        # logging.info(f'adding column for {label} -> {encoded_label} ({i+1}/{len(item_labels)}) ...')            
         # logging.info(f'adding column for {label} -> {encoded_label} ({i+1}/{len(item_labels)}) ...')
         # x_transformed = _add_column(x_transformed, label, encoded_column)
     return x_transformed[columns]
@@ -47,7 +47,7 @@ def _get_labels(x, column_prefix):
     for i in range(1, 25):
         labels.extend(pandas.Series(x[f'{column_prefix}{i}'].values.tolist()).drop_duplicates().tolist())
     labels = pandas.Series(labels).drop_duplicates().tolist()
-    print(f'Nbr item labels={len(labels)}')
+    logging.info(f'Nbr item labels={len(labels)}')
     return labels
 def _update_columns(x, item_encoder, column_patterns):
     def update_columns(row):
@@ -57,9 +57,9 @@ def _update_columns(x, item_encoder, column_patterns):
             if label == '':
                 continue
             encoded_label = int(item_encoder.transform([label])[0])
-            # print(f'{column}={label} -> {encoded_label}')
+            # logging.info(f'{column}={label} -> {encoded_label}')
             for k, v in column_patterns.items():
-                # print(f'\t{row[k.format(i)]}: {k.format(i)} -> {v.format(encoded_label)}')
+                # logging.info(f'\t{row[k.format(i)]}: {k.format(i)} -> {v.format(encoded_label)}')
                 row[v.format(encoded_label)] = row[k.format(i)]
 
             # if row[column] == label:
