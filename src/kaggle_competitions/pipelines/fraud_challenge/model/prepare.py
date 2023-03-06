@@ -11,8 +11,5 @@ def prepare_y(y):
 def split_train_set(x, y):
     from sklearn.model_selection import train_test_split
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.33)
-    logging.info(f'y={y["fraud_flag"].sum()}')
-    logging.info(f'y_train={y_train["fraud_flag"].sum()}')
-    logging.info(f'y_test={y_test["fraud_flag"].sum()}')
     return x_train, y_train.astype({'fraud_flag':'float'}), x_test, y_test.astype({'fraud_flag':'float'})
 

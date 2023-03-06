@@ -35,6 +35,8 @@ loggers:
   kaggle_competitions:
     level: INFO
     handlers: [rich, info_file_handler, error_file_handler]
+  py.warnings:
+    level: ERROR
 root:
   handlers: [console, info_file_handler]
   level: INFO
