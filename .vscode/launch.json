@@ -10,7 +10,7 @@
             "request": "launch",
             "console": "integratedTerminal",
             "module": "kedro",
-            "args": ["run", "--pipeline", "fraud_challenge"]
+            "args": ["run", "--pipeline", "fraud_challenge", "--env", "fraud"]
         },
         {
             "name": "stock",
@@ -18,7 +18,7 @@
             "request": "launch",
             "console": "integratedTerminal",
             "module": "kedro",
-            "args": ["run", "--pipeline", "stock"]
+            "args": ["run", "--pipeline", "stock", "--env", "stock"]
         }
     ]
 }
