@@ -7,7 +7,7 @@ from .model.prepare_input import *
 choose_files_node = node(func=choose_files_encoder, \
                          inputs=['params:mode', 'x_train_raw', 'y_train_raw', 'x_test_raw', 'y_test_raw'], \
                          outputs=['x_train', 'y_train', 'x_test', 'y_test'])
-get_encoders_node = node(func=get_encoders, inputs=['x_train', 'x_test'], \
+get_encoders_node = node(func=get_encoders, inputs=['x_train', 'y_train'], \
                          outputs=['item_encoder', 'item_labels', 'make_encoder', 'make_labels', 'model_encoder', 'model_labels'])
 prepare_x_node = node(func=prepare_x, \
                       inputs=['x_train', 'item_encoder', 'item_labels', 'make_encoder', 'make_labels', 'model_encoder', 'model_labels'],\

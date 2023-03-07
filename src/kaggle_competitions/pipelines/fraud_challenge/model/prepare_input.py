@@ -1,10 +1,15 @@
 import pandas, logging
 
 # Public functions
-def get_encoders(x1, x2):
-    encoders = list(_get_encoder(pandas.concat([x1, x2]), 'item'))
-    encoders.extend(list(_get_encoder(pandas.concat([x1, x2]), 'make')))
-    encoders.extend(list(_get_encoder(pandas.concat([x1, x2]), 'model')))
+def get_encoders(x, y):
+    df = pandas.concat([x, y['fraud_flag']], axis=1)
+    df = df[df['fraud_flag'] == 1.0]
+    logging.info(f'x={len(x)}')
+    logging.info(f'y={len(y)}')
+    logging.info(f'df={len(df)}')
+    encoders = list(_get_encoder(df, 'item'))
+    encoders.extend(list(_get_encoder(df, 'make')))
+    encoders.extend(list(_get_encoder(df, 'model')))
     return encoders
 def prepare_x(x, item_encoder, item_labels, make_encoder, make_labels, model_encoder, model_labels):
     columns = ['ID', 'Nb_of_items']
@@ -12,9 +17,9 @@ def prepare_x(x, item_encoder, item_labels, make_encoder, make_labels, model_enc
     x_transformed = _add_columns(\
         x_transformed, item_encoder, item_labels, columns, 'item{0}', \
             {'Nbr_of_prod_purchas{0}': 'Nbr_item{0}', 'cash_price{0}': 'price_item{0}'}).copy()
-    # logging.info('Prepare X : adding make columns ...')
-    # x_transformed = _add_columns(\
-    #     x_transformed, make_encoder, make_labels, columns, 'make{0}', {'Nbr_of_prod_purchas{0}': 'Nbr_make{0}'}).copy()
+    logging.info('Prepare X : adding make columns ...')
+    x_transformed = _add_columns(\
+        x_transformed, make_encoder, make_labels, columns, 'make{0}', {'Nbr_of_prod_purchas{0}': 'Nbr_make{0}'}).copy()
     return x_transformed[columns]
 # Private functions
 def _fit_transform(x, encoder):
@@ -49,15 +54,15 @@ def _add_columns(x, encoder, labels, columns, pattern, column_patterns):
             encoded_column = column_pattern.format(encoded_label)
             x[encoded_column] = 0
             columns.append(encoded_column)
-    return _update_columns(x.copy(), encoder, pattern, column_patterns)
-def _update_columns(x, item_encoder, pattern, column_patterns):
+    return _update_columns(x.copy(), encoder, pattern, column_patterns, set(labels))
+def _update_columns(x, item_encoder, pattern, column_patterns, labels):
     def update_columns(row):
         for i in range(1, 25):
             column = pattern.format(i)
             label = row[column]
             if label == '':
                 continue
-            encoded_label = int(item_encoder.transform([label])[0])
+            encoded_label = int(item_encoder.transform([label])[0]) if label in labels else 0 
             for k, v in column_patterns.items():
                 row[v.format(encoded_label)] = row[v.format(encoded_label)]  + row[k.format(i)]
         return row
