@@ -6,16 +6,16 @@
 # 01_raw
 x_train_raw:
   type: pandas.CSVDataSet
-  filepath: ./data/01_raw/X_train_G3tdtEn.csv
+  filepath: ./data/01_raw/fraud/X_train_G3tdtEn.csv
 y_train_raw:
   type: pandas.CSVDataSet
-  filepath: ./data/01_raw/Y_train_2_XPXJDyy.csv
+  filepath: ./data/01_raw/fraud/Y_train_2_XPXJDyy.csv
 x_test_raw:
   type: pandas.CSVDataSet
-  filepath: ./data/01_raw/X_test_8skS2ey.csv
+  filepath: ./data/01_raw/fraud/X_test_8skS2ey.csv
 y_test_raw:
   type: pandas.CSVDataSet
-  filepath: ./data/01_raw/Y_train_2_XPXJDyy.csv
+  filepath: ./data/01_raw/fraud/Y_train_2_XPXJDyy.csv
 
 # 02_intermediate
 x_train:

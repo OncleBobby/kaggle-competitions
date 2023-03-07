@@ -30,7 +30,7 @@ def _get_model():
     # model = sklearn.ensemble.RandomForestClassifier()
 
     # return model
-    # return Model()
+    return Model()
 
     # from sklearn.multiclass import OneVsRestClassifier as Model # 0.23834318037776012 RandomForestClassifier
     # from sklearn.ensemble import RandomForestClassifier
@@ -43,22 +43,22 @@ def _get_model():
     # from sklearn.ensemble import RandomForestClassifier
     # return Model(estimator=RandomForestClassifier())
 
-    from sklearn.ensemble import GradientBoostingClassifier
-    from sklearn.ensemble import AdaBoostClassifier
-    from sklearn.ensemble import BaggingClassifier
-    from sklearn.ensemble import ExtraTreesClassifier
-    from sklearn.ensemble import RandomForestClassifier
-    from sklearn.tree import DecisionTreeClassifier
-    from sklearn.ensemble import StackingClassifier as Model # 0.21714637918918994
-    estimators = [
-            ('gbc', GradientBoostingClassifier()),
-            ('abc', AdaBoostClassifier()),
-            ('bc', BaggingClassifier()),
-            ('etc', ExtraTreesClassifier()),
-            ('rfc', RandomForestClassifier()),
-            ('dtc', DecisionTreeClassifier())
-        ]
-    return Model(estimators=estimators)
+    # from sklearn.ensemble import GradientBoostingClassifier
+    # from sklearn.ensemble import AdaBoostClassifier
+    # from sklearn.ensemble import BaggingClassifier
+    # from sklearn.ensemble import ExtraTreesClassifier
+    # from sklearn.ensemble import RandomForestClassifier
+    # from sklearn.tree import DecisionTreeClassifier
+    # from sklearn.ensemble import StackingClassifier as Model # 0.21714637918918994
+    # estimators = [
+    #         ('gbc', GradientBoostingClassifier()),
+    #         ('abc', AdaBoostClassifier()),
+    #         ('bc', BaggingClassifier()),
+    #         ('etc', ExtraTreesClassifier()),
+    #         ('rfc', RandomForestClassifier()),
+    #         ('dtc', DecisionTreeClassifier())
+    #     ]
+    # return Model(estimators=estimators)
 
 
 
