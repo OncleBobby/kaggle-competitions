@@ -1,3 +1,3 @@
-mode: test
+# mode: test
 # mode: calibrate
-# mode: submission
+mode: submission

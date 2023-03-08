@@ -6,82 +6,82 @@
 # 01_raw
 x_train_raw:
   type: pandas.CSVDataSet
-  filepath: ./data/01_raw/fraud/X_train_G3tdtEn.csv
+  filepath: ./data/stock/01_raw/input_training.csv
 y_train_raw:
   type: pandas.CSVDataSet
-  filepath: ./data/01_raw/fraud/Y_train_2_XPXJDyy.csv
+  filepath: ./data/stock/01_raw/output_training_gmEd6Zt.csv
 x_test_raw:
   type: pandas.CSVDataSet
-  filepath: ./data/01_raw/fraud/X_test_8skS2ey.csv
+  filepath: ./data/stock/01_raw/input_test.csv
 y_test_raw:
   type: pandas.CSVDataSet
-  filepath: ./data/01_raw/fraud/Y_train_2_XPXJDyy.csv
+  filepath: ./data/stock/01_raw/output_test_random.csv
 
 # 02_intermediate
-x_train:
+x_train_stock:
   type: pandas.CSVDataSet
-  filepath: ./data/02_intermediate/X_train.csv
+  filepath: ./data/stock/02_intermediate/X_train.csv
   # save_args:
   #   index: False
-y_train:
+y_train_stock:
   type: pandas.CSVDataSet
-  filepath: ./data/02_intermediate/Y_train.csv
+  filepath: ./data/stock/02_intermediate/Y_train.csv
   load_args:
     dtype:
       fraud_flag: float
   # save_args:
   #   index: False
-x_test:
+x_test_stock:
   type: pandas.CSVDataSet
-  filepath: ./data/02_intermediate/X_test.csv
+  filepath: ./data/stock/02_intermediate/X_test.csv
   # save_args:
   #   index: False
-y_test:
+y_test_stock:
   type: pandas.CSVDataSet
-  filepath: ./data/02_intermediate/Y_test.csv
+  filepath: ./data/stock/02_intermediate/Y_test.csv
   # save_args:
   #   index: False
 
 # 04_feature
 item_encoder:
   type: pickle.PickleDataSet
-  filepath: data/04_feature/item_encoder.pkl
+  filepath: data/stock/04_feature/item_encoder.pkl
   backend: pickle
 make_encoder:
   type: pickle.PickleDataSet
-  filepath: data/04_feature/make_encoder.pkl
+  filepath: data/stock/04_feature/make_encoder.pkl
   backend: pickle
 model_encoder:
   type: pickle.PickleDataSet
-  filepath: data/04_feature/model_encoder.pkl
+  filepath: data/stock/04_feature/model_encoder.pkl
   backend: pickle
 
 # 05_model_input
 x_train_transformed:
   type: pandas.CSVDataSet
-  filepath: ./data/05_model_input/x_train_transformed.csv
+  filepath: ./data/stock/05_model_input/x_train_transformed.csv
   # save_args:
   #   index: False
 x_test_transformed:
   type: pandas.CSVDataSet
-  filepath: ./data/05_model_input/x_test_transformed.csv
+  filepath: ./data/stock/05_model_input/x_test_transformed.csv
   # save_args:
   #   index: False
 y_test_transformed:
   type: pandas.CSVDataSet
-  filepath: ./data/05_model_input/y_test_transformed.csv
+  filepath: ./data/stock/05_model_input/y_test_transformed.csv
   # save_args:
   #   index: False
 
 # 06_models
-model:
+model_stock:
   type: pickle.PickleDataSet
-  filepath: data/06_models/model.pkl
+  filepath: data/stock/06_models/model.pkl
   backend: pickle
 
 # 07_model_output
-y_prediction:
+y_prediction_stock:
   type: pandas.CSVDataSet
-  filepath: ./data/07_model_output/y_prediction.csv
+  filepath: ./data/stock/07_model_output/y_prediction.csv
   # save_args:
   #   index: False

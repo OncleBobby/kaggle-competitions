@@ -1,10 +1,12 @@
-"""
-This is a boilerplate pipeline 'stock'
-generated using Kedro 0.18.4
-"""
+from kedro.pipeline import Pipeline, pipeline
+from .nodes import *
 
-from kedro.pipeline import Pipeline, node, pipeline
-
-
-def create_pipeline(**kwargs) -> Pipeline:
-    return pipeline([])
+def create_pipeline() -> Pipeline:
+    return pipeline(\
+        [
+            choose_files_node,
+            train_model_node, 
+            predict_node,
+            score_node
+        ], \
+        tags="stock")

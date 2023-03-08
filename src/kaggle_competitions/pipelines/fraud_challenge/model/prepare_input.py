@@ -14,12 +14,13 @@ def get_encoders(x, y):
 def prepare_x(x, item_encoder, item_labels, make_encoder, make_labels, model_encoder, model_labels):
     columns = ['ID', 'Nb_of_items']
     x_transformed = _fillna(x)
+    logging.info('Prepare X : adding item columns ...')
     x_transformed = _add_columns(\
         x_transformed, item_encoder, item_labels, columns, 'item{0}', \
             {'Nbr_of_prod_purchas{0}': 'Nbr_item{0}', 'cash_price{0}': 'price_item{0}'}).copy()
-    logging.info('Prepare X : adding make columns ...')
-    x_transformed = _add_columns(\
-        x_transformed, make_encoder, make_labels, columns, 'make{0}', {'Nbr_of_prod_purchas{0}': 'Nbr_make{0}'}).copy()
+    # logging.info('Prepare X : adding make columns ...')
+    # x_transformed = _add_columns(\
+    #     x_transformed, make_encoder, make_labels, columns, 'make{0}', {'Nbr_of_prod_purchas{0}': 'Nbr_make{0}'}).copy()
     return x_transformed[columns]
 # Private functions
 def _fit_transform(x, encoder):
