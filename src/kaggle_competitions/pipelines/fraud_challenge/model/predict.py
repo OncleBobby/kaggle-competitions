@@ -40,6 +40,11 @@ def _get_model():
     # from sklearn.ensemble import RandomForestClassifier
     # return Model(estimator=RandomForestClassifier())
 
+    from sklearn.calibration import CalibratedClassifierCV
+    # from sklearn.ensemble import RandomForestClassifier
+    # return CalibratedClassifierCV(estimator=RandomForestClassifier(), cv=5, method='isotonic')
+    # return RandomForestClassifier()
+
     from sklearn.ensemble import GradientBoostingClassifier
     from sklearn.ensemble import AdaBoostClassifier
     from sklearn.ensemble import BaggingClassifier
@@ -50,14 +55,14 @@ def _get_model():
     from sklearn.neural_network import MLPClassifier
     from sklearn.ensemble import StackingClassifier as Model # 0.21714637918918994
     estimators = [
-            ('gbc', GradientBoostingClassifier()),
-            ('abc', AdaBoostClassifier()),
-            ('bc', BaggingClassifier()),
-            ('etc', ExtraTreesClassifier()),
-            ('rfc', RandomForestClassifier()),
-            ('dtc', DecisionTreeClassifier()),
-            ('hgb', HistGradientBoostingClassifier()),
-            ('mlp', MLPClassifier())
+            ('gbc', CalibratedClassifierCV(GradientBoostingClassifier(), cv=5, method='isotonic')),
+            ('abc', CalibratedClassifierCV(AdaBoostClassifier(), cv=5, method='isotonic')),
+            ('bc', CalibratedClassifierCV(BaggingClassifier(), cv=5, method='isotonic')),
+            ('etc', CalibratedClassifierCV(ExtraTreesClassifier(), cv=5, method='isotonic')),
+            ('rfc', CalibratedClassifierCV(RandomForestClassifier(), cv=5, method='isotonic')),
+            ('dtc', CalibratedClassifierCV(DecisionTreeClassifier(), cv=5, method='isotonic')),
+            ('hgb', CalibratedClassifierCV(HistGradientBoostingClassifier(), cv=5, method='isotonic')),
+            ('mlp', CalibratedClassifierCV(MLPClassifier(), cv=5, method='isotonic'))
         ]
     return Model(estimators=estimators)
 
