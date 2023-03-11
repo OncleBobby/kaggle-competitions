@@ -19,3 +19,5 @@ prepare_y_node = node(func=prepare_y, inputs=['y_train'], outputs='y_train_trans
 train_model_node = node(func=train_model, inputs=['x_train_transformed', 'y_train_transformed'], outputs='model')
 predict_node = node(func=predict, inputs=['model', 'x_test_transformed'], outputs='y_prediction')
 score_node = node(func=score, inputs=['y_test', 'y_prediction'], outputs='score')
+
+calibrate_model_node = node(func=calibrate_model, inputs=['x_train_transformed', 'y_train_transformed', 'x_test_transformed', 'y_test'], outputs='best_score')

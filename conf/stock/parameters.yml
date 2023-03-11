@@ -1,3 +1,34 @@
-mode: test
-# mode: calibrate
+# mode: test
+mode: calibrate
 # mode: submission
+
+target_field: reod
+id_field: ID
+
+estimator_names:
+  - 'Random Forest'
+  # - 'Random Forest Calibrated'
+  # - 'Gradient Boosting - log_loss'
+  # - 'Gradient Boosting - deviance'
+  # - 'Gradient Boosting - exponential'
+  # - 'Gradient Boosting'
+  # - 'Gradient Boosting Calibrated'
+  # - 'Ada Boost'
+  # - 'Ada Boost Calibrated'
+  # - 'Bagging'
+  # - 'Bagging - Extra Trees'
+  # - 'Bagging - Random Forest'
+  # - 'Bagging - Hist Gradient Boosting'
+  # - 'Bagging Calibrated'
+  # - 'Extra Trees'
+  # - 'Extra Trees Calibrated'
+  - 'Decision Tree'
+  # - 'Decision Tree Calibrated'
+  # - 'Hist Gradient Boosting'
+  # - 'Hist Gradient Boosting - auto'
+  # - 'Hist Gradient Boosting - categorical_crossentropy'
+  # - 'Hist Gradient Boosting Calibrated'
+  # - 'MLP'
+  # - 'MLP Calibrated'
+  # - 'Stacking 2'
+  # - 'Stacking 4'
