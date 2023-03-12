@@ -72,6 +72,4 @@ y_prediction_stock:
 model_score:
   type: pandas.CSVDataSet
   filepath: ./data/stock/07_model_output/model_score.csv
-  save_args:
-    if_exists: append
   versioned: True

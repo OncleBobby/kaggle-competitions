@@ -7,6 +7,13 @@ import pandas, logging, time, datetime
     # from sklearn.calibration import  as Model # 0.01688744670335069
     # from sklearn.gaussian_process import GaussianProcessClassifier as Model
     # model = sklearn.ensemble.RandomForestClassifier()
+    # 2023-03-11 11:09:52,781 - root- INFO - 0.48523657061543934      Random Forest in 0:13:23.226058
+# 2023-03-11 18:35:40,738 - root- INFO - 0.4972636360042977       Gradient Boosting in 7:25:47.956283
+# 2023-03-11 18:38:06,242 - root- INFO - 0.471355317673354        Ada Boost in 0:02:25.500785
+# 2023-03-11 20:54:13,962 - root- INFO - 0.4887293425180298       Extra Trees in 2:16:07.718478
+# 2023-03-11 20:55:09,602 - root- INFO - 0.40575085612438866      Decision Tree in 0:00:55.639751
+# 2023-03-11 20:55:27,772 - root- INFO - 0.5277355554836878       Hist Gradient Boosting in 0:00:18.168397
+# 2023-03-11 20:57:36,318 - root- INFO - 0.41186680034065304      MLP in 0:02:08.545308
 
 def calibrate_model(estimators, dataset_parameters, x_train, y_train, x_test, y_test):
     from sklearn.metrics import accuracy_score
