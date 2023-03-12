@@ -8,25 +8,32 @@ import pandas, logging, time, datetime
     # from sklearn.gaussian_process import GaussianProcessClassifier as Model
     # model = sklearn.ensemble.RandomForestClassifier()
 
-def calibrate_model(estimators, target_field, id_field, x_train, y_train, x_test, y_test):
+def calibrate_model(estimators, dataset_parameters, x_train, y_train, x_test, y_test):
     from sklearn.metrics import accuracy_score
     best_score = 0
     best_name = None
     lines = []
+    target_field = dataset_parameters['target_field']
+    id_field = dataset_parameters['id_field']
     for name, estimator in estimators.items():
-        start_time = time.time()
+        start_time = datetime.datetime.now()
         estimator.fit(x_train, y_train[target_field])
         y_predict = pandas.DataFrame(x_test[id_field].copy(), columns=[id_field])
         y_predict[target_field] = [y for y in estimator.predict(x_test)]
         y_predict = y_predict.reset_index()
         score = accuracy_score(y_test[target_field].values.tolist(), y_predict[target_field].values.tolist())
 
-        end_time = time.time()
-        duration = (time.time() - start_time)
-        duration_str = datetime.datetime.fromtimestamp(duration).strftime('%M:%S.%f')
-        line = {'start_time': start_time, 'end_time': end_time, 'duration': duration, 'duration_str': duration_str, 'name': name, 'score': score}
+        end_time = datetime.datetime.now()
+        duration = (end_time - start_time)
+        line = {
+            'start_time': start_time, 
+            'end_time': end_time, 
+            'duration': str(duration), 
+            'name': name, 
+            'score': score
+            }
         lines.append(line)
-        logging.info(f'{score}\t{name} in {time.time() - start_time}s {duration_str}')
+        logging.info(f'{score}\t{name} in {duration}')
         if score > best_score:
             best_score = score
             best_name = name
@@ -34,12 +41,17 @@ def calibrate_model(estimators, target_field, id_field, x_train, y_train, x_test
     return pandas.DataFrame(lines)
 def get_estimators(estimator_names):
     import sklearn.ensemble
+    import sklearn.dummy
     import sklearn.tree
     import sklearn.calibration
     import sklearn.neural_network
     import sklearn.calibration
     estimators = {
-            'Random Forest': sklearn.ensemble.RandomForestClassifier(),
+            'Dummy Classifier most_frequent': sklearn.dummy.DummyClassifier(strategy='most_frequent'),
+            'Dummy Classifier prior': sklearn.dummy.DummyClassifier(strategy='prior'),
+            'Dummy Classifier stratified': sklearn.dummy.DummyClassifier(strategy='stratified'),
+            'Dummy Classifier uniform': sklearn.dummy.DummyClassifier(strategy='uniform'),
+            'Dummy Classifier constant': sklearn.dummy.DummyClassifier(strategy='constant', constant=0),
             'Random Forest Calibrated': sklearn.calibration.CalibratedClassifierCV(sklearn.ensemble.RandomForestClassifier()),
             'Gradient Boosting - log_loss': sklearn.ensemble.GradientBoostingClassifier(loss='log_loss'),
             'Gradient Boosting - deviance': sklearn.ensemble.GradientBoostingClassifier(loss='deviance'),

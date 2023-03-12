@@ -74,3 +74,4 @@ model_score:
   filepath: ./data/stock/07_model_output/model_score.csv
   save_args:
     if_exists: append
+  versioned: True

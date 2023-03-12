@@ -2,14 +2,12 @@ from kedro.pipeline import node
 import logging, pandas, time, datetime
 from ...calibration import calibrate_model, get_estimators
 
-def choose_files(mode, x_train_raw, y_train_raw, x_test_raw, y_test_raw):
-    if mode == 'test':
+def choose_files(dataset_parameters, x_train_raw, y_train_raw, x_test_raw, y_test_raw):
+    mode = dataset_parameters['mode'] if 'mode' in dataset_parameters else  ''
+    test_size = dataset_parameters['test_size'] if 'test_size' in dataset_parameters else  0.33    
+    if mode == 'calibration':
         from sklearn.model_selection import train_test_split
         x_train, x_test, y_train, y_test = train_test_split(x_train_raw, y_train_raw, test_size=0.33)
-        return x_train.fillna(0), y_train, x_test.fillna(0), y_test
-    if mode == 'calibrate':
-        from sklearn.model_selection import train_test_split
-        x_train, x_test, y_train, y_test = train_test_split(x_train_raw, y_train_raw, test_size=0.99)
         return x_train.fillna(0), y_train, x_test.fillna(0), y_test
     return x_train_raw.fillna(0), y_train_raw, x_test_raw.fillna(0), y_test_raw
 def train_model(x, y):
@@ -43,13 +41,12 @@ def score(y_true, y_pred):
     return score
 
 
-choose_files_node = node(func=choose_files, inputs=['params:mode', 'x_train_raw', 'y_train_raw', 'x_test_raw', 'y_test_raw'],  \
+choose_files_node = node(func=choose_files, inputs=['params:parameters', 'x_train_raw', 'y_train_raw', 'x_test_raw', 'y_test_raw'],  \
                             outputs=['x_train_stock', 'y_train_stock', 'x_test_stock', 'y_test_stock'])
 train_model_node = node(func=train_model, inputs=['x_train_stock', 'y_train_stock'], outputs='model_stock')
 predict_node = node(func=predict, inputs=['model_stock', 'x_test_stock'], outputs='y_prediction_stock')
-score_node = node(func=score, inputs=['y_test_stock', 'y_prediction_stock'], outputs='score_stock')
 get_estimators_node = node(func=get_estimators, inputs=['params:estimator_names'], outputs='estimators')
 calibrate_model_node = node(func=calibrate_model, \
-    inputs=['estimators', 'params:target_field', 'params:id_field', 'x_train_stock', 'y_train_stock', 'x_test_stock', 'y_test_stock'], \
+    inputs=['estimators', 'params:parameters', 'x_train_stock', 'y_train_stock', 'x_test_stock', 'y_test_stock'], \
         outputs='model_score')
 

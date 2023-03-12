@@ -7,7 +7,6 @@ def create_pipeline() -> Pipeline:
             choose_files_node,
             # train_model_node, 
             # predict_node,
-            # score_node,
             get_estimators_node,
             calibrate_model_node
         ], \
