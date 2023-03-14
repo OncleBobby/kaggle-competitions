@@ -1,13 +1,5 @@
 import pandas, logging, datetime
-    # from sklearn.ensemble import RandomForestClassifier as Model # 0.24190277816810518
-    # from sklearn.ensemble import StackingClassifier as Model
-    # from sklearn.neural_network import MLPClassifier as Model # 0.04475057636819481
-    # from sklearn.neighbors import KNeighborsClassifier as Model # 0.07055742578682545
-    # from sklearn.neighbors import RadiusNeighborsClassifier as Model
-    # from sklearn.calibration import  as Model # 0.01688744670335069
-    # from sklearn.gaussian_process import GaussianProcessClassifier as Model
-    # model = sklearn.ensemble.RandomForestClassifier()
-    # 2023-03-11 11:09:52,781 - root- INFO - 0.48523657061543934      Random Forest in 0:13:23.226058
+# 2023-03-11 11:09:52,781 - root- INFO - 0.48523657061543934      Random Forest in 0:13:23.226058
 # 2023-03-11 18:35:40,738 - root- INFO - 0.4972636360042977       Gradient Boosting in 7:25:47.956283
 # 2023-03-11 18:38:06,242 - root- INFO - 0.471355317673354        Ada Boost in 0:02:25.500785
 # 2023-03-11 20:54:13,962 - root- INFO - 0.4887293425180298       Extra Trees in 2:16:07.718478
@@ -22,8 +14,7 @@ def calibrate_model(params, x_train, y_train, x_test, y_test):
     lines = []
     target_field = params['target_field']
     id_field = params['id_field']
-    estimators = _get_estimators()
-    for name in estimators.keys():
+    for name in params['estimator_names']:
         start_time = datetime.datetime.now()
         estimator = _train(name, target_field, x_train, y_train)
         y_predict = _predict(estimator, id_field, target_field, x_test)
