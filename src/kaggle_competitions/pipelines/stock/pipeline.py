@@ -5,9 +5,10 @@ def create_pipeline() -> Pipeline:
     return pipeline(\
         [
             choose_files_node,
-            # train_model_node, 
-            # predict_node,
             get_estimators_node,
+            train_model_node, 
+            predict_node,
             calibrate_model_node
         ], \
         tags="stock")
+

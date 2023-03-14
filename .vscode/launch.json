@@ -19,6 +19,22 @@
             "console": "integratedTerminal",
             "module": "kedro",
             "args": ["run", "--pipeline", "stock", "--env", "stock"]
+        },
+        {
+            "name": "stock - calibration",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "module": "kedro",
+            "args": ["run", "--pipeline", "stock", "--env", "stock", "--tag", "calibration"]
+        },
+        {
+            "name": "stock - submission",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "module": "kedro",
+            "args": ["run", "--pipeline", "stock", "--env", "stock", "--tag", "submission"]
         }
     ]
 }
