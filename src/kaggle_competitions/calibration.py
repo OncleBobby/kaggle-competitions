@@ -1,4 +1,4 @@
-import pandas, logging, time, datetime
+import pandas, logging, datetime
     # from sklearn.ensemble import RandomForestClassifier as Model # 0.24190277816810518
     # from sklearn.ensemble import StackingClassifier as Model
     # from sklearn.neural_network import MLPClassifier as Model # 0.04475057636819481
@@ -15,21 +15,19 @@ import pandas, logging, time, datetime
 # 2023-03-11 20:55:27,772 - root- INFO - 0.5277355554836878       Hist Gradient Boosting in 0:00:18.168397
 # 2023-03-11 20:57:36,318 - root- INFO - 0.41186680034065304      MLP in 0:02:08.545308
 
-def calibrate_model(estimators, dataset_parameters, x_train, y_train, x_test, y_test):
+def calibrate_model(params, x_train, y_train, x_test, y_test):
     from sklearn.metrics import accuracy_score
     best_score = 0
     best_name = None
     lines = []
-    target_field = dataset_parameters['target_field']
-    id_field = dataset_parameters['id_field']
-    for name, estimator in estimators.items():
+    target_field = params['target_field']
+    id_field = params['id_field']
+    estimators = _get_estimators()
+    for name in estimators.keys():
         start_time = datetime.datetime.now()
-        estimator.fit(x_train, y_train[target_field])
-        y_predict = pandas.DataFrame(x_test[id_field].copy(), columns=[id_field])
-        y_predict[target_field] = [y for y in estimator.predict(x_test)]
-        y_predict = y_predict.reset_index()
+        estimator = _train(name, target_field, x_train, y_train)
+        y_predict = _predict(estimator, id_field, target_field, x_test)
         score = accuracy_score(y_test[target_field].values.tolist(), y_predict[target_field].values.tolist())
-
         end_time = datetime.datetime.now()
         duration = (end_time - start_time)
         line = {
@@ -46,14 +44,30 @@ def calibrate_model(estimators, dataset_parameters, x_train, y_train, x_test, y_
             best_name = name
     logging.info(f'The winner is {best_name} with a score of {best_score} !')
     return pandas.DataFrame(lines)
-def get_estimators(estimator_names):
+def train(params, x, y):
+    target_field = params['target_field']
+    return _train(params['estimator_name'], target_field, x, y)
+def _train(name, target_field, x, y):
+    estimator = _get_estimators()[name]
+    estimator.fit(x, y[target_field])
+    return estimator
+def predict(params, estimator, x):
+    target_field = params['target_field']
+    id_field = params['id_field']
+    return _predict(estimator, id_field, target_field, x)
+def _predict(estimator, id_field, target_field, x):
+    y_predict = pandas.DataFrame(x[id_field].copy(), columns=[id_field])
+    y_predict[target_field] = [y for y in estimator.predict(x)]
+    y_predict = y_predict.reset_index()
+    return y_predict
+def _get_estimators():
     import sklearn.ensemble
     import sklearn.dummy
     import sklearn.tree
     import sklearn.calibration
     import sklearn.neural_network
     import sklearn.calibration
-    estimators = {
+    return {
             'Dummy Classifier most_frequent': sklearn.dummy.DummyClassifier(strategy='most_frequent'),
             'Dummy Classifier prior': sklearn.dummy.DummyClassifier(strategy='prior'),
             'Dummy Classifier stratified': sklearn.dummy.DummyClassifier(strategy='stratified'),
@@ -121,4 +135,3 @@ def get_estimators(estimator_names):
                         ('mlp', sklearn.calibration.CalibratedClassifierCV(sklearn.neural_network.MLPClassifier(), cv=5, method='isotonic'))
                     ])
                 }
-    return { name: estimators[name] for name in estimator_names}

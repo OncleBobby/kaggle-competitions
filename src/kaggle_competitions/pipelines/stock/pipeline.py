@@ -5,8 +5,7 @@ def create_pipeline() -> Pipeline:
     return pipeline(\
         [
             choose_files_node,
-            get_estimators_node,
-            train_model_node, 
+            train_node, 
             predict_node,
             calibrate_model_node
         ], \
