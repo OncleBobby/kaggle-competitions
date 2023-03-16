@@ -49,7 +49,7 @@ def predict(params, estimator, x):
 def _predict(estimator, id_field, target_field, x):
     y_predict = pandas.DataFrame(x[id_field].copy(), columns=[id_field])
     y_predict[target_field] = [y for y in estimator.predict(x)]
-    y_predict = y_predict.reset_index()
+    y_predict = y_predict.reset_index(drop=True)
     return y_predict
 def _get_estimators():
     import sklearn.ensemble
@@ -83,10 +83,14 @@ def _get_estimators():
             'Decision Tree Calibrated': sklearn.calibration.CalibratedClassifierCV(sklearn.tree.DecisionTreeClassifier()),
             'Hist Gradient Boosting': sklearn.ensemble.HistGradientBoostingClassifier(loss='log_loss'),
             'Hist Gradient Boosting - auto': sklearn.ensemble.HistGradientBoostingClassifier(loss='auto'),
-            'Hist Gradient Boosting - categorical_crossentropy’': sklearn.ensemble.HistGradientBoostingClassifier(loss='categorical_crossentropy'),
+            'Hist Gradient Boosting - categorical_crossentropy': sklearn.ensemble.HistGradientBoostingClassifier(loss='categorical_crossentropy'),
             'Hist Gradient Boosting Calibrated': sklearn.calibration.CalibratedClassifierCV(sklearn.ensemble.HistGradientBoostingClassifier()),
             'MLP': sklearn.neural_network.MLPClassifier(),
             'MLP Calibrated': sklearn.calibration.CalibratedClassifierCV(sklearn.neural_network.MLPClassifier()),
+            'Stacking 1': sklearn.ensemble.StackingClassifier([
+                        ('hgbc', sklearn.calibration.CalibratedClassifierCV(sklearn.ensemble.HistGradientBoostingClassifier())),
+                        ('dtc', sklearn.calibration.CalibratedClassifierCV(sklearn.tree.DecisionTreeClassifier()))
+                    ]),
             'Stacking 2': sklearn.ensemble.StackingClassifier([
                         ('gbc', sklearn.ensemble.GradientBoostingClassifier(loss='deviance')),
                         ('bc', sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.RandomForestClassifier())),
