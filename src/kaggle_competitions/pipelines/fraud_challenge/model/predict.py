@@ -1,15 +1,4 @@
 import pandas as pd, logging, time, datetime
-
-
-    # from sklearn.ensemble import RandomForestClassifier as Model # 0.24190277816810518
-    # from sklearn.ensemble import StackingClassifier as Model
-    # from sklearn.neural_network import MLPClassifier as Model # 0.04475057636819481
-    # from sklearn.neighbors import KNeighborsClassifier as Model # 0.07055742578682545
-    # from sklearn.neighbors import RadiusNeighborsClassifier as Model
-    # from sklearn.calibration import  as Model # 0.01688744670335069
-    # from sklearn.gaussian_process import GaussianProcessClassifier as Model
-    # model = sklearn.ensemble.RandomForestClassifier()
-
 def calibrate_model(x_train, y_train, x_test, y_test):
     import sklearn.ensemble
     import sklearn.tree
@@ -40,44 +29,44 @@ def calibrate_model(x_train, y_train, x_test, y_test):
             # 'Hist Gradient Boosting Calibrated': sklearn.calibration.CalibratedClassifierCV(sklearn.ensemble.HistGradientBoostingClassifier()),
             # 'MLP': sklearn.neural_network.MLPClassifier(),
             # 'MLP Calibrated': sklearn.calibration.CalibratedClassifierCV(sklearn.neural_network.MLPClassifier()),
-            'Stacking 2': sklearn.ensemble.StackingClassifier([
-                        ('gbc', sklearn.ensemble.GradientBoostingClassifier(loss='deviance')),
-                        ('bc', sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.RandomForestClassifier())),
-                        ('etc', sklearn.ensemble.ExtraTreesClassifier())
-                    ]),
-            'Stacking 4.1': sklearn.ensemble.StackingClassifier([
-                        ('gbc', sklearn.ensemble.GradientBoostingClassifier(loss='deviance')),
-                        ('bc', sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.RandomForestClassifier())),
-                        ('etc', sklearn.ensemble.ExtraTreesClassifier()),
-                        ('hgb', sklearn.ensemble.HistGradientBoostingClassifier())
-                    ]),
-            'Stacking 4': sklearn.ensemble.StackingClassifier([
-                        ('gbc', sklearn.ensemble.GradientBoostingClassifier(loss='deviance')),
-                        ('bc', sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.RandomForestClassifier())),
-                        ('etc', sklearn.ensemble.ExtraTreesClassifier()),
-                        ('rfc', sklearn.ensemble.RandomForestClassifier()),
-                        ('hgb', sklearn.ensemble.HistGradientBoostingClassifier())
-                    ]),
-            'Stacking': sklearn.ensemble.StackingClassifier(estimators = [
-                        ('gbc', sklearn.ensemble.GradientBoostingClassifier(loss='deviance')),
-                        ('abc', sklearn.ensemble.AdaBoostClassifier()),
-                        ('bc', sklearn.ensemble.BaggingClassifier()),
-                        ('etc', sklearn.ensemble.ExtraTreesClassifier()),
-                        ('rfc', sklearn.ensemble.RandomForestClassifier()),
-                        ('hgb', sklearn.ensemble.HistGradientBoostingClassifier()),
-                        ('dtc', sklearn.tree.DecisionTreeClassifier()),
-                        ('mlp', sklearn.neural_network.MLPClassifier())
-                    ]),
-            'Stacking Ref': sklearn.ensemble.StackingClassifier(estimators = [
-                        ('gbc', sklearn.calibration.CalibratedClassifierCV(sklearn.ensemble.GradientBoostingClassifier(loss='deviance'), cv=5, method='isotonic')),
-                        ('abc', sklearn.calibration.CalibratedClassifierCV(sklearn.ensemble.AdaBoostClassifier(), cv=5, method='isotonic')),
-                        ('bc', sklearn.calibration.CalibratedClassifierCV(sklearn.ensemble.BaggingClassifier(), cv=5, method='isotonic')),
-                        ('etc', sklearn.calibration.CalibratedClassifierCV(sklearn.ensemble.ExtraTreesClassifier(), cv=5, method='isotonic')),
-                        ('rfc', sklearn.calibration.CalibratedClassifierCV(sklearn.ensemble.RandomForestClassifier(), cv=5, method='isotonic')),
-                        ('hgb', sklearn.calibration.CalibratedClassifierCV(sklearn.ensemble.HistGradientBoostingClassifier(), cv=5, method='isotonic')),
-                        ('dtc', sklearn.calibration.CalibratedClassifierCV(sklearn.tree.DecisionTreeClassifier(), cv=5, method='isotonic')),
-                        ('mlp', sklearn.calibration.CalibratedClassifierCV(sklearn.neural_network.MLPClassifier(), cv=5, method='isotonic'))
-                    ])
+            # 'Stacking 2': sklearn.ensemble.StackingClassifier([
+            #             ('gb', sklearn.ensemble.GradientBoostingClassifier(loss='deviance')),
+            #             ('bc', sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.RandomForestClassifier())),
+            #             ('etc', sklearn.ensemble.ExtraTreesClassifier())
+            #         ]),
+            # 'Stacking 4.1': sklearn.ensemble.StackingClassifier([
+            #             ('gb', sklearn.ensemble.GradientBoostingClassifier(loss='deviance')),
+            #             ('bc', sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.RandomForestClassifier())),
+            #             ('et', sklearn.ensemble.ExtraTreesClassifier()),
+            #             ('hgb', sklearn.ensemble.HistGradientBoostingClassifier())
+            #         ]),
+            # 'Stacking 4': sklearn.ensemble.StackingClassifier([
+            #             ('gb', sklearn.ensemble.GradientBoostingClassifier(loss='deviance')),
+            #             ('b', sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.RandomForestClassifier())),
+            #             ('et', sklearn.ensemble.ExtraTreesClassifier()),
+            #             ('rf', sklearn.ensemble.RandomForestClassifier()),
+            #             ('hgb', sklearn.ensemble.HistGradientBoostingClassifier())
+            #         ]),
+            # 'Stacking': sklearn.ensemble.StackingClassifier(estimators = [
+            #             ('gb', sklearn.ensemble.GradientBoostingClassifier(loss='deviance')),
+            #             ('ab', sklearn.ensemble.AdaBoostClassifier()),
+            #             ('b', sklearn.ensemble.BaggingClassifier()),
+            #             ('et', sklearn.ensemble.ExtraTreesClassifier()),
+            #             ('rf', sklearn.ensemble.RandomForestClassifier()),
+            #             ('hgb', sklearn.ensemble.HistGradientBoostingClassifier()),
+            #             ('dt', sklearn.tree.DecisionTreeClassifier()),
+            #             ('mlp', sklearn.neural_network.MLPClassifier())
+            #         ]),
+            # 'Stacking Ref': sklearn.ensemble.StackingClassifier(estimators = [
+            #             ('gb', sklearn.calibration.CalibratedClassifierCV(sklearn.ensemble.GradientBoostingClassifier(loss='deviance'), cv=5, method='isotonic')),
+            #             ('ab', sklearn.calibration.CalibratedClassifierCV(sklearn.ensemble.AdaBoostClassifier(), cv=5, method='isotonic')),
+            #             ('b', sklearn.calibration.CalibratedClassifierCV(sklearn.ensemble.BaggingClassifier(), cv=5, method='isotonic')),
+            #             ('et', sklearn.calibration.CalibratedClassifierCV(sklearn.ensemble.ExtraTreesClassifier(), cv=5, method='isotonic')),
+            #             ('rf', sklearn.calibration.CalibratedClassifierCV(sklearn.ensemble.RandomForestClassifier(), cv=5, method='isotonic')),
+            #             ('hgb', sklearn.calibration.CalibratedClassifierCV(sklearn.ensemble.HistGradientBoostingClassifier(), cv=5, method='isotonic')),
+            #             ('dt', sklearn.calibration.CalibratedClassifierCV(sklearn.tree.DecisionTreeClassifier(), cv=5, method='isotonic')),
+            #             ('mlp', sklearn.calibration.CalibratedClassifierCV(sklearn.neural_network.MLPClassifier(), cv=5, method='isotonic'))
+            #         ])
                 }
     best_score = 0
     best_name = None
@@ -150,12 +139,12 @@ def _get_model():
     # from sklearn.ensemble import StackingClassifier as Model # 0.21714637918918994
     # # CalibratedClassifierCV 0.32726128502644053
     # estimators = [
-    #         ('gbc', CalibratedClassifierCV(GradientBoostingClassifier(loss='deviance'), cv=5, method='isotonic')),
-    #         ('abc', CalibratedClassifierCV(AdaBoostClassifier(), cv=5, method='isotonic')),
-    #         ('bc', CalibratedClassifierCV(BaggingClassifier(), cv=5, method='isotonic')),
-    #         ('etc', CalibratedClassifierCV(ExtraTreesClassifier(), cv=5, method='isotonic')),
-    #         ('rfc', CalibratedClassifierCV(RandomForestClassifier(), cv=5, method='isotonic')),
-    #         ('dtc', CalibratedClassifierCV(DecisionTreeClassifier(), cv=5, method='isotonic')),
+    #         ('gb', CalibratedClassifierCV(GradientBoostingClassifier(loss='deviance'), cv=5, method='isotonic')),
+    #         ('ab', CalibratedClassifierCV(AdaBoostClassifier(), cv=5, method='isotonic')),
+    #         ('b', CalibratedClassifierCV(BaggingClassifier(), cv=5, method='isotonic')),
+    #         ('et', CalibratedClassifierCV(ExtraTreesClassifier(), cv=5, method='isotonic')),
+    #         ('rf', CalibratedClassifierCV(RandomForestClassifier(), cv=5, method='isotonic')),
+    #         ('dt', CalibratedClassifierCV(DecisionTreeClassifier(), cv=5, method='isotonic')),
     #         ('hgb', CalibratedClassifierCV(HistGradientBoostingClassifier(), cv=5, method='isotonic')),
     #         ('mlp', CalibratedClassifierCV(MLPClassifier(), cv=5, method='isotonic'))
     #     ]
