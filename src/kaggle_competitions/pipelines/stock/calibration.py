@@ -115,6 +115,11 @@ def _get_estimators():
                         ('gb', sklearn.ensemble.GradientBoostingClassifier(loss='log_loss')),
                         ('hgb', sklearn.calibration.CalibratedClassifierCV(sklearn.ensemble.HistGradientBoostingClassifier()))
                     ]),
+            'Stacking_ab_gb_hgb': sklearn.ensemble.StackingClassifier([
+                        ('ab', sklearn.ensemble.AdaBoostClassifier()),
+                        ('gb', sklearn.ensemble.GradientBoostingClassifier(loss='log_loss')),
+                        ('hgb', sklearn.ensemble.HistGradientBoostingClassifier())
+                    ]),
             'Stacking 4.1': sklearn.ensemble.StackingClassifier([
                         ('gb', sklearn.ensemble.GradientBoostingClassifier(loss='deviance')),
                         ('b', sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.RandomForestClassifier())),

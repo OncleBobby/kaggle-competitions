@@ -28,7 +28,7 @@ x_train_features_stock:
   filepath: ./data/stock/04_feature/x_train_features_stock.csv
 x_to_submit_stock:
   type: pandas.CSVDataSet
-  filepath: ./data/stock/04_feature/x_train_features_sx_to_submit_stocktock.csv
+  filepath: ./data/stock/04_feature/x_to_submit_stock.csv
 
 # 05_model_input
 x_train_stock:
@@ -53,7 +53,7 @@ model_stock:
 # 07_model_output
 y_prediction_stock:
   type: pandas.CSVDataSet
-  filepath: ./data/stock/07_model_output/y_submit_stock.csv
+  filepath: ./data/stock/07_model_output/y_prediction.csv
 model_score:
   type: pandas.CSVDataSet
   filepath: ./data/stock/07_model_output/model_score.csv
