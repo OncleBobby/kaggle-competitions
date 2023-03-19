@@ -10,6 +10,7 @@ import pandas, logging, datetime
 def calibrate_model(params, x_train, y_train, x_test, y_test):
     from sklearn.metrics import accuracy_score
     best_score = 0
+    best_model = None
     best_name = None
     lines = []
     target_field = params['target_field']
@@ -33,8 +34,9 @@ def calibrate_model(params, x_train, y_train, x_test, y_test):
         if score > best_score:
             best_score = score
             best_name = name
+            best_model = estimator
     logging.info(f'The winner is {best_name} with a score of {best_score} !')
-    return pandas.DataFrame(lines)
+    return best_model, pandas.DataFrame(lines)
 def train(params, x, y):
     target_field = params['target_field']
     return _train(params['estimator_name'], target_field, x, y)
@@ -91,6 +93,11 @@ def _get_estimators():
             'Stacking 1': sklearn.ensemble.StackingClassifier([
                         ('hgb', sklearn.calibration.CalibratedClassifierCV(sklearn.ensemble.HistGradientBoostingClassifier())),
                         ('dt', sklearn.calibration.CalibratedClassifierCV(sklearn.tree.DecisionTreeClassifier()))
+                    ]),
+            'Stacking_ab_b_hgb': sklearn.ensemble.StackingClassifier([
+                        ('ab', sklearn.ensemble.AdaBoostClassifier()),
+                        ('bc', sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.RandomForestClassifier())),
+                        ('hgb', sklearn.ensemble.HistGradientBoostingClassifier())
                     ]),
             'Stacking_gb_ab_b_hgb': sklearn.ensemble.StackingClassifier([
                         ('gb', sklearn.ensemble.GradientBoostingClassifier(loss='deviance')),

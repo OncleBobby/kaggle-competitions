@@ -4,10 +4,13 @@ from .nodes import *
 def create_pipeline() -> Pipeline:
     return pipeline(\
         [
-            choose_files_node,
-            train_node, 
-            predict_node,
-            calibrate_model_node
+            format_x_training_node,
+            format_x_test_node,
+            train_select_features_node,
+            test_select_features_node,
+            format_y_training_node,
+            split_train_dataset_node,
+            calibrate_model_node,
+            predict_node
         ], \
         tags="stock")
-

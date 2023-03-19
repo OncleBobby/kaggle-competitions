@@ -21,6 +21,14 @@
             "args": ["run", "--pipeline", "stock", "--env", "stock"]
         },
         {
+            "name": "stock - preparation",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "module": "kedro",
+            "args": ["run", "--pipeline", "stock", "--env", "stock", "--tag", "preparation"]
+        },
+        {
             "name": "stock - calibration",
             "type": "python",
             "request": "launch",
@@ -29,28 +37,12 @@
             "args": ["run", "--pipeline", "stock", "--env", "stock", "--tag", "calibration"]
         },
         {
-            "name": "stock - calibration only",
-            "type": "python",
-            "request": "launch",
-            "console": "integratedTerminal",
-            "module": "kedro",
-            "args": ["run", "--pipeline", "stock", "--env", "stock", "--tag", "calibration_only"]
-        },
-        {
             "name": "stock - submission",
             "type": "python",
             "request": "launch",
             "console": "integratedTerminal",
             "module": "kedro",
             "args": ["run", "--pipeline", "stock", "--env", "stock", "--tag", "submission"]
-        },
-        {
-            "name": "stock - train and predict",
-            "type": "python",
-            "request": "launch",
-            "console": "integratedTerminal",
-            "module": "kedro",
-            "args": ["run", "--pipeline", "stock", "--env", "stock", "--tag", "train_predict"]
         }
     ]
 }

@@ -1,21 +1,22 @@
 import logging
 
-def choose_files(parameters, x_train_raw, y_train_raw, x_test_raw, y_test_raw):
-    mode = parameters['mode'] if 'mode' in parameters else  ''
-    test_size = parameters['test_size'] if 'test_size' in parameters else  0.33    
-    if mode == 'calibration':
-        from sklearn.model_selection import train_test_split
-        x_train, x_test, y_train, y_test = split(x_train_raw, y_train_raw, test_size=test_size)
-        # x_train, x_test, y_train, y_test = train_test_split(x_train_raw, y_train_raw, test_size=test_size)
-        return format_x(parameters, x_train), y_train, format_x(parameters, x_test), y_test
-    return format_x(parameters, x_train_raw), y_train_raw, format_x(parameters, x_test_raw), y_test_raw
-def format_x(parameters, x):
+def format_x(x):
+    # ID	day	equity	r0	r1	r2	r3	r4	r5	r6	...	r44	r45	r46	r47	r48	r49	r50	r51	r52
+    x_formatted = x.fillna(0)
+    return _add_columns(x_formatted)
+def format_y(y):
+    return y.fillna(0)
+def select_features(parameters, x):
     # ID	day	equity	r0	r1	r2	r3	r4	r5	r6	...	r44	r45	r46	r47	r48	r49	r50	r51	r52
     columns = ['ID', 'day', 'equity', 'nbr_positif', 'nbr_negatif']
     columns.extend([f'r{i}' for i in range(40, 53)])
     # columns.extend([f'r{i}' for i in range(0, 53)])
-    x_formatted = x.fillna(0)
-    return _add_columns(x_formatted)[columns]
+    return x[columns]
+def prepare(parameters, input_training, output_training, input_test, output_test):
+    return format_x(parameters, input_training), output_training.reset_index(drop=True), format_x(parameters, input_test), output_test.reset_index(drop=True)
+def split_train_dataset(parameters, x_train_raw, y_train_raw):
+    test_size = parameters['test_size'] if 'test_size' in parameters else  0.33    
+    return split(x_train_raw, y_train_raw, test_size=test_size)
 def split(x, y, test_size):
     days = x['day'].unique()
     days.sort()
