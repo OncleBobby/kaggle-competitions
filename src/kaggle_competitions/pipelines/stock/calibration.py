@@ -152,5 +152,10 @@ def _get_estimators():
                         ('hgb', sklearn.calibration.CalibratedClassifierCV(sklearn.ensemble.HistGradientBoostingClassifier(), cv=5, method='isotonic')),
                         ('dt', sklearn.calibration.CalibratedClassifierCV(sklearn.tree.DecisionTreeClassifier(), cv=5, method='isotonic')),
                         ('mlp', sklearn.calibration.CalibratedClassifierCV(sklearn.neural_network.MLPClassifier(), cv=5, method='isotonic'))
+                    ]),
+            'Voting_ab_gb_hgb': sklearn.ensemble.VotingClassifier(estimators=[
+                        ('ab', sklearn.ensemble.AdaBoostClassifier()),
+                        ('gb', sklearn.ensemble.GradientBoostingClassifier(loss='log_loss')),
+                        ('hgb', sklearn.ensemble.HistGradientBoostingClassifier())
                     ])
                 }

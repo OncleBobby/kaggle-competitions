@@ -7,11 +7,7 @@ def format_x(x):
 def format_y(y):
     return y.fillna(0)
 def select_features(parameters, x):
-    # ID	day	equity	r0	r1	r2	r3	r4	r5	r6	...	r44	r45	r46	r47	r48	r49	r50	r51	r52
-    columns = ['ID', 'day', 'equity', 'nbr_positif', 'nbr_negatif']
-    columns.extend([f'r{i}' for i in range(40, 53)])
-    # columns.extend([f'r{i}' for i in range(0, 53)])
-    return x[columns]
+    return x[parameters['features']]
 def prepare(parameters, input_training, output_training, input_test, output_test):
     return format_x(parameters, input_training), output_training.reset_index(drop=True), format_x(parameters, input_test), output_test.reset_index(drop=True)
 def split_train_dataset(parameters, x_train_raw, y_train_raw):
@@ -37,16 +33,28 @@ def _add_columns(x):
     def update_columns(row):
         nbr_positif = 0
         nbr_negatif = 0
-        for j in range(0, 53):
+        r_min = row['r0']
+        r_max = row['r0']
+        perf = 1
+        for j in [f'r{i}' for i in range(0, 53)]:
             if row[j] > 0:
                 nbr_positif = nbr_positif + 1
             if row[j] < 0:
                 nbr_negatif = nbr_negatif + 1
+            if row[j] < r_min:
+                r_min = row[j]
+            if row[j] > r_max:
+                r_max = row[j]
+            perf = perf * (1 + row[j]/10e4)
         row['nbr_positif'] = nbr_positif
         row['nbr_negatif'] = nbr_negatif
+        row['perf'] = (1-perf)*100
         return row
     x['nbr_positif'] = 0
     x['nbr_negatif'] = 0
+    x['perf'] = 0
+    x['r_min'] = 0
+    x['r_max'] = 0
     x = x.apply(update_columns, axis=1)
     logging.info('Adding columns done !')
     return x
