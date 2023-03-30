@@ -21,26 +21,18 @@ y_test_raw:
 x_train:
   type: pandas.CSVDataSet
   filepath: ./data/fraud/02_intermediate/X_train.csv
-  # save_args:
-  #   index: False
 y_train:
   type: pandas.CSVDataSet
   filepath: ./data/fraud/02_intermediate/Y_train.csv
   load_args:
     dtype:
       fraud_flag: float
-  # save_args:
-  #   index: False
 x_test:
   type: pandas.CSVDataSet
   filepath: ./data/fraud/02_intermediate/X_test.csv
-  # save_args:
-  #   index: False
 y_test:
   type: pandas.CSVDataSet
   filepath: ./data/fraud/02_intermediate/Y_test.csv
-  # save_args:
-  #   index: False
 
 # 04_feature
 item_encoder:
@@ -60,18 +52,15 @@ model_encoder:
 x_train_transformed:
   type: pandas.CSVDataSet
   filepath: ./data/fraud/05_model_input/x_train_transformed.csv
-  # save_args:
-  #   index: False
+y_train_transformed:
+  type: pandas.CSVDataSet
+  filepath: ./data/fraud/05_model_input/y_train_transformed.csv
 x_test_transformed:
   type: pandas.CSVDataSet
   filepath: ./data/fraud/05_model_input/x_test_transformed.csv
-  # save_args:
-  #   index: False
 y_test_transformed:
   type: pandas.CSVDataSet
   filepath: ./data/fraud/05_model_input/y_test_transformed.csv
-  # save_args:
-  #   index: False
 
 # 06_models
 model:
@@ -83,5 +72,7 @@ model:
 y_prediction:
   type: pandas.CSVDataSet
   filepath: ./data/fraud/07_model_output/y_prediction.csv
-  # save_args:
-  #   index: False
+model_score_fraud:
+  type: pandas.CSVDataSet
+  filepath: ./data/fraud/07_model_output/model_score.csv
+  versioned: True

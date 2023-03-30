@@ -1,3 +1,40 @@
-mode: test
-# mode: calibrate
-# mode: submission
+
+parameters:
+  estimator_name: 'Random Forest'
+  mode: calibration
+  # mode: submission
+  test_size: 0.33
+  estimator_names:
+    # - 'Dummy Classifier most_frequent'
+    # - 'Dummy Classifier prior'
+    # - 'Dummy Classifier stratified'
+    # - 'Dummy Classifier uniform'
+    # - 'Dummy Classifier constant'
+    - 'Random Forest'
+    - 'Random Forest Calibrated'
+    # - 'Gradient Boosting - log_loss'
+    # - 'Gradient Boosting - deviance'
+    - 'Gradient Boosting'
+    - 'Gradient Boosting Calibrated'
+    # - 'Ada Boost'
+    # - 'Ada Boost Calibrated'
+    # - 'Bagging'
+    # - 'Bagging - Extra Trees'
+    # - 'Bagging - Random Forest'
+    # - 'Bagging - Hist Gradient Boosting'
+    # - 'Bagging Calibrated'
+    - 'Extra Trees'
+    - 'Extra Trees Calibrated'
+    - 'Decision Tree'
+    - 'Decision Tree Calibrated'
+    - 'Hist Gradient Boosting'
+    # - 'Hist Gradient Boosting - auto'
+    # - 'Hist Gradient Boosting - categorical_crossentropy'
+    - 'Hist Gradient Boosting Calibrated'
+    # - 'MLP'
+    # - 'MLP Calibrated'
+    - 'Stacking_AB_GB_HGB'
+    # - 'Stacking 1'
+    # - 'Stacking 2'
+    # - 'Stacking 4'
+    - 'Stacking Ref'

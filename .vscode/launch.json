@@ -13,6 +13,22 @@
             "args": ["run", "--pipeline", "fraud_challenge", "--env", "fraud"]
         },
         {
+            "name": "fraud - preparation",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "module": "kedro",
+            "args": ["run", "--pipeline", "fraud_challenge", "--env", "fraud", "--tag", "preparation"]
+        },
+        {
+            "name": "fraud - calibration",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "module": "kedro",
+            "args": ["run", "--pipeline", "fraud_challenge", "--env", "fraud", "--tag", "calibration"]
+        },
+        {
             "name": "stock",
             "type": "python",
             "request": "launch",

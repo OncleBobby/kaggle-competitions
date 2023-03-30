@@ -11,7 +11,7 @@ def select_features(parameters, x):
 def prepare(parameters, input_training, output_training, input_test, output_test):
     return format_x(parameters, input_training), output_training.reset_index(drop=True), format_x(parameters, input_test), output_test.reset_index(drop=True)
 def split_train_dataset(parameters, x_train_raw, y_train_raw):
-    test_size = parameters['test_size'] if 'test_size' in parameters else  0.33    
+    test_size = parameters['test_size'] if 'test_size' in parameters else  0.33
     return split(x_train_raw, y_train_raw, test_size=test_size)
 def split(x, y, test_size):
     days = x['day'].unique()

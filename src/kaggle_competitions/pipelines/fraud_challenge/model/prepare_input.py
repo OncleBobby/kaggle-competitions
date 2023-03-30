@@ -18,10 +18,8 @@ def prepare_x(x, item_encoder, item_labels, make_encoder, make_labels, model_enc
     x_transformed = _add_columns(\
         x_transformed, item_encoder, item_labels, columns, 'item{0}', \
             {'Nbr_of_prod_purchas{0}': 'Nbr_item{0}', 'cash_price{0}': 'price_item{0}'}).copy()
-    # logging.info('Prepare X : adding make columns ...')
-    # x_transformed = _add_columns(\
-    #     x_transformed, make_encoder, make_labels, columns, 'make{0}', {'Nbr_of_prod_purchas{0}': 'Nbr_make{0}'}).copy()
     return x_transformed[columns]
+
 # Private functions
 def _fit_transform(x, encoder):
     x_transformed = x
@@ -65,7 +63,8 @@ def _update_columns(x, item_encoder, pattern, column_patterns, labels):
                 continue
             encoded_label = int(item_encoder.transform([label])[0]) if label in labels else 0 
             for k, v in column_patterns.items():
-                row[v.format(encoded_label)] = row[v.format(encoded_label)]  + row[k.format(i)]
+                encoded_column = v.format(encoded_label)
+                row[encoded_column] = row[k.format(i)] + (row[encoded_column] if encoded_column in row else 0)
         return row
     x = x.apply(update_columns, axis=1)
     return x
