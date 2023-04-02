@@ -12,31 +12,30 @@ parameters:
     # - 'Dummy Classifier constant'
     - 'Random Forest'
     # - 'Random Forest Calibrated'
-    - 'Gradient Boosting - log_loss'
+    # - 'Gradient Boosting - log_loss'
     # - 'Gradient Boosting - deviance'
     # - 'Gradient Boosting'
     # - 'Gradient Boosting Calibrated'
-    - 'Ada Boost'
+    # - 'Ada Boost'
     # - 'Ada Boost Calibrated'
-    - 'Bagging'
+    # - 'Bagging'
     # - 'Bagging - Extra Trees'
     # - 'Bagging - Random Forest'
     # - 'Bagging - Hist Gradient Boosting'
     # - 'Bagging Calibrated'
-    - 'Extra Trees'
+    # - 'Extra Trees'
     # - 'Extra Trees Calibrated'
-    - 'Decision Tree'
+    # - 'Decision Tree'
     # - 'Decision Tree Calibrated'
-    - 'Hist Gradient Boosting'
+    # - 'Hist Gradient Boosting'
     # - 'Hist Gradient Boosting - auto'
     # - 'Hist Gradient Boosting - categorical_crossentropy'
     # - 'Hist Gradient Boosting Calibrated'
-    - 'MLP'
+    # - 'MLP'
     # - 'MLP Calibrated'
-    - 'Complement NB'
-    - 'Gaussian NB'
-    - 'KNeighbors'
-    # - 'Self Training'
+    # - 'Complement NB'
+    # - 'Gaussian NB'
+    # - 'KNeighbors'
     # - 'Stacking_AB_GB_HGB'
     # - 'Stacking 1'
     # - 'Stacking 2'
@@ -49,3 +48,11 @@ parameters:
     # - Stacking_et_rf_hgb_dt_mlp
     # - Stacking_rf_hgb_dt_mlp
     # - Stacking_hgb_dt_mlp
+    - relu
+    - sigmoid
+    - softmax
+    - softplus
+    - softsign
+    - tanh
+    - selu
+    - elu

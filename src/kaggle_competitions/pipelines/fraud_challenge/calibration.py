@@ -9,10 +9,8 @@ def calibrate_model(params, x_train, y_train, x_test, y_test):
     for name in params['estimator_names']:
         start_time = datetime.datetime.now()
         estimator = _get_estimators()[name]
-        estimator.fit(x_train, y_train[['fraud_flag']])
-        y_predict = pandas.DataFrame(x_test['ID'].copy(), columns=['ID'])
-        y_predict['fraud_flag'] = [y[1] for y in estimator.predict_proba(x_test)]
-        y_predict = y_predict.reset_index()
+        estimator.fit(x_train, y_train)
+        y_predict = estimator.predict_proba(x_test)
         current_score = score(y_test, y_predict)
         end_time = datetime.datetime.now()
         duration = (end_time - start_time)
@@ -61,7 +59,9 @@ def _predict(estimator, id_field, target_field, x):
 def _get_estimators():
     import sklearn.ensemble, sklearn.dummy, sklearn.tree, sklearn.calibration, sklearn.neural_network, sklearn.calibration, sklearn.gaussian_process
     import sklearn.linear_model, sklearn.multiclass, sklearn.svm, sklearn.naive_bayes, sklearn.neighbors, sklearn.semi_supervised
-    return {
+    from .model.sklearn_estimator import SklearnEstimator
+    from .model.keras_estimator import KerasEstimator
+    estimators = {
             'Dummy Classifier most_frequent': sklearn.dummy.DummyClassifier(strategy='most_frequent'),
             'Dummy Classifier prior': sklearn.dummy.DummyClassifier(strategy='prior'),
             'Dummy Classifier stratified': sklearn.dummy.DummyClassifier(strategy='stratified'),
@@ -204,5 +204,18 @@ def _get_estimators():
                         ('hgb', sklearn.calibration.CalibratedClassifierCV(sklearn.ensemble.HistGradientBoostingClassifier(), cv=5, method='isotonic')),
                         ('dt', sklearn.calibration.CalibratedClassifierCV(sklearn.tree.DecisionTreeClassifier(), cv=5, method='isotonic')),
                         ('mlp', sklearn.calibration.CalibratedClassifierCV(sklearn.neural_network.MLPClassifier(), cv=5, method='isotonic'))
-                    ])
-            }
+                    ])                      
+        }
+    for k in estimators.keys():
+        estimators[k] = SklearnEstimator(estimators[k])
+    estimators['relu'] = KerasEstimator('relu', 100, 100)
+    estimators['sigmoid'] = KerasEstimator('sigmoid', 100, 100)
+    estimators['softmax'] = KerasEstimator('softmax', 100, 100)
+    estimators['softplus'] = KerasEstimator('softplus', 100, 100)
+    estimators['softsign'] = KerasEstimator('softsign', 100, 100)
+    estimators['tanh'] = KerasEstimator('tanh', 100, 100)
+    estimators['selu'] = KerasEstimator('selu', 100, 100)
+    estimators['relu'] = KerasEstimator('relu', 100, 100)
+    estimators['softplus'] = KerasEstimator('softplus', 100, 100)
+    estimators['elu'] = KerasEstimator('elu', 100, 100)
+    return estimators
