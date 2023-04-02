@@ -17,8 +17,9 @@ prepare_x_test_node = node(func=prepare_x, \
     inputs=['x_test', 'item_encoder', 'item_labels', 'make_encoder', 'make_labels', 'model_encoder', 'model_labels'],\
     outputs='x_test_transformed', tags=['preparation'])
 prepare_y_node = node(func=prepare_y, inputs=['y_train'], outputs='y_train_transformed', tags=['preparation'])
+prepare_y_test_node = node(func=prepare_y, inputs=['y_test'], outputs='y_test_transformed', tags=['preparation'])
 train_model_node = node(func=train_model, inputs=['x_train_transformed', 'y_train_transformed'], outputs='model')
 predict_node = node(func=predict, inputs=['model', 'x_test_transformed'], outputs='y_prediction')
 calibrate_model_node = node(func=calibrate, \
-    inputs=['params:parameters', 'x_train_transformed', 'y_train_transformed', 'x_test_transformed', 'y_test'], \
+    inputs=['params:parameters', 'x_train_transformed', 'y_train_transformed', 'x_test_transformed', 'y_test_transformed'], \
     outputs=['model_fraud', 'model_score_fraud'], tags=['calibration'])
