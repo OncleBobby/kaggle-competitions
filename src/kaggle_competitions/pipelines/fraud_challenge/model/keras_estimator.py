@@ -15,8 +15,9 @@ class KerasEstimator(Estimator):
         y = pandas.DataFrame(x['ID'].copy(), columns=['ID'])
         prediction = self.model.predict(x)
         prediction = self.model.predict(x)
-        y['fraud_flag'] = [p[0] for p in prediction]
+        y['fraud_flag'] = [p[1] for p in prediction]
         y = y.reset_index(drop=True)
+        # logging.info(f'activation_name={self.activation_name},y={y.head()}')
         return y  
     def build_model(self, x, y, activation_name='relu', batch_size=10, epochs=10):
         # y_columns = y.columns
