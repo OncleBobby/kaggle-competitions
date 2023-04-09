@@ -4,15 +4,14 @@ from .nodes import *
 def create_pipeline(**kwargs) -> Pipeline:
     return pipeline(\
         [
-            choose_files_node,
             get_encoders_node,
             prepare_x_node,
-            prepare_x_test_node,
+            prepare_x_submission_node,
             prepare_y_node,
-            prepare_y_test_node,
-            # train_model_node,
-            # predict_node,
-            calibrate_model_node
+            split_train_set_node,
+            calibrate_model_node,
+            train_model_node,
+            predict_node
         ], \
         tags="fraud_challenge")
 

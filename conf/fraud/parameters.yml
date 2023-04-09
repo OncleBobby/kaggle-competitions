@@ -29,12 +29,9 @@ parameters:
     # - 'Decision Tree Calibrated'
     # - 'Hist Gradient Boosting'
     # - 'Hist Gradient Boosting - auto'
-    # - 'Hist Gradient Boosting - categorical_crossentropy'
     # - 'Hist Gradient Boosting Calibrated'
     # - 'MLP'
     # - 'MLP Calibrated'
-    # - 'Complement NB'
-    # - 'Gaussian NB'
     # - 'KNeighbors'
     # - 'Stacking_AB_GB_HGB'
     # - 'Stacking 1'
@@ -48,11 +45,11 @@ parameters:
     # - Stacking_et_rf_hgb_dt_mlp
     # - Stacking_rf_hgb_dt_mlp
     # - Stacking_hgb_dt_mlp
-    - relu
-    - sigmoid
-    - softmax
-    - softplus
-    - softsign
-    - tanh
-    - selu
-    - elu
+    # - relu
+    # - sigmoid
+    # - softmax
+    # - softplus
+    # - softsign
+    # - tanh
+    # - selu
+    # - elu

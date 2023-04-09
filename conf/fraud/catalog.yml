@@ -4,35 +4,34 @@
 # Link: https://kedro.readthedocs.io/en/stable/data/data_catalog.html
 
 # 01_raw
-x_train_raw:
+x_raw:
   type: pandas.CSVDataSet
   filepath: ./data/fraud/01_raw/X_train_G3tdtEn.csv
-y_train_raw:
+y_raw:
   type: pandas.CSVDataSet
   filepath: ./data/fraud/01_raw/Y_train_2_XPXJDyy.csv
-x_test_raw:
+x_submission_raw:
   type: pandas.CSVDataSet
   filepath: ./data/fraud/01_raw/X_test_8skS2ey.csv
-y_test_raw:
+y_submission_sample_raw:
   type: pandas.CSVDataSet
   filepath: ./data/fraud/01_raw/Y_train_2_XPXJDyy.csv
 
 # 02_intermediate
-x_train:
+
+# 03_primary
+x_model:
   type: pandas.CSVDataSet
-  filepath: ./data/fraud/02_intermediate/X_train.csv
-y_train:
+  filepath: ./data/fraud/03_primary/x_model.csv
+y_model:
   type: pandas.CSVDataSet
-  filepath: ./data/fraud/02_intermediate/Y_train.csv
-  load_args:
-    dtype:
-      fraud_flag: float
-x_test:
+  filepath: ./data/fraud/03_primary/y_model.csv
+x_model_submission:
   type: pandas.CSVDataSet
-  filepath: ./data/fraud/02_intermediate/X_test.csv
-y_test:
+  filepath: ./data/fraud/03_primary/x_model_submission.csv
+y_model_submission:
   type: pandas.CSVDataSet
-  filepath: ./data/fraud/02_intermediate/Y_test.csv
+  filepath: ./data/fraud/03_primary/y_model_submission.csv
 
 # 04_feature
 item_encoder:
@@ -49,23 +48,30 @@ model_encoder:
   backend: pickle
 
 # 05_model_input
-x_train_transformed:
+x_train:
   type: pandas.CSVDataSet
-  filepath: ./data/fraud/05_model_input/x_train_transformed.csv
-y_train_transformed:
+  filepath: ./data/fraud/05_model_input/X_train.csv
+y_train:
   type: pandas.CSVDataSet
-  filepath: ./data/fraud/05_model_input/y_train_transformed.csv
-x_test_transformed:
+  filepath: ./data/fraud/05_model_input/Y_train.csv
+  load_args:
+    dtype:
+      fraud_flag: float
+x_test:
   type: pandas.CSVDataSet
-  filepath: ./data/fraud/05_model_input/x_test_transformed.csv
-y_test_transformed:
+  filepath: ./data/fraud/05_model_input/X_test.csv
+y_test:
   type: pandas.CSVDataSet
-  filepath: ./data/fraud/05_model_input/y_test_transformed.csv
+  filepath: ./data/fraud/05_model_input/Y_test.csv
 
 # 06_models
 model:
   type: pickle.PickleDataSet
   filepath: data/fraud/06_models/model.pkl
+  backend: pickle
+submission_model:
+  type: pickle.PickleDataSet
+  filepath: data/fraud/06_models/submission_model.pkl
   backend: pickle
 
 # 07_model_output

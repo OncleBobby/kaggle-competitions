@@ -8,9 +8,13 @@ def calibrate_model(params, x_train, y_train, x_test, y_test):
     lines = []
     for name in params['estimator_names']:
         start_time = datetime.datetime.now()
-        estimator = _get_estimators()[name]
-        estimator.fit(x_train, y_train)
-        y_predict = estimator.predict_proba(x_test)
+        estimators = get_estimators()
+        if not name in estimators:
+            logging.warning(f'{name} is not define.')
+            continue
+        estimator = estimators[name]
+        estimator.fit(x_train.fillna(0), y_train)
+        y_predict = estimator.predict_proba(x_test.fillna(0))
         current_score = score(y_test, y_predict)
         end_time = datetime.datetime.now()
         duration = (end_time - start_time)
@@ -28,7 +32,7 @@ def calibrate_model(params, x_train, y_train, x_test, y_test):
             best_name = name
             best_model = estimator
     logging.info(f'The winner is {best_name} with a score of {best_score} !')
-    return best_model, pandas.DataFrame(lines)
+    return best_model, best_name, pandas.DataFrame(lines)
 def score(y_true, y_pred_proba):
     ''' 
     Return the area under the Precision-Recall curve.  
@@ -44,7 +48,7 @@ def score(y_true, y_pred_proba):
     score = average_precision_score(numpy.ravel(y_true_sorted.iloc[:, 1]), numpy.ravel(y_pred_proba_sorted.iloc[:, 1]))
     return score
 def train(params, x, y):
-    estimator = _get_estimators()[params['estimator_name']]
+    estimator = get_estimators()[params['estimator_name']]
     estimator.fit(x, y[['fraud_flag']])
     return estimator
 def predict(params, estimator, x):
@@ -56,7 +60,7 @@ def _predict(estimator, id_field, target_field, x):
     y_predict[target_field] = [y for y in estimator.predict(x)]
     y_predict = y_predict.reset_index(drop=True)
     return y_predict
-def _get_estimators():
+def get_estimators():
     import sklearn.ensemble, sklearn.dummy, sklearn.tree, sklearn.calibration, sklearn.neural_network, sklearn.calibration, sklearn.gaussian_process
     import sklearn.linear_model, sklearn.multiclass, sklearn.svm, sklearn.naive_bayes, sklearn.neighbors, sklearn.semi_supervised
     from .model.sklearn_estimator import SklearnEstimator
