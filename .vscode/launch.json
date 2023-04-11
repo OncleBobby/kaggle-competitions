@@ -29,6 +29,14 @@
             "args": ["run", "--pipeline", "fraud_challenge", "--env", "fraud", "--tag", "calibration"]
         },
         {
+            "name": "fraud - submission",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "module": "kedro",
+            "args": ["run", "--pipeline", "fraud_challenge", "--env", "fraud", "--tag", "submission"]
+        },
+        {
             "name": "stock",
             "type": "python",
             "request": "launch",

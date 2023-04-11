@@ -20,6 +20,5 @@ calibrate_model_node = node(func=calibrate, \
 prepare_x_submission_node = node(func=prepare_x, \
     inputs=['x_submission_raw', 'item_encoder', 'item_labels', 'make_encoder', 'make_labels', 'model_encoder', 'model_labels'],\
     outputs='x_model_submission', tags=['preparation'])
-prepare_y_submission_node = node(func=prepare_y, inputs=['y_submission_raw'], outputs='y_model_submission', tags=['preparation'])
-train_model_node = node(func=train_model, inputs=['x_model_submission', 'y_model_submission', 'model_fraud_name'], outputs='submission_model')
-predict_node = node(func=predict, inputs=['submission_model', 'x_model_submission'], outputs='y_submission')
+train_model_node = node(func=train_model, inputs=['x_model', 'y_model', 'params:parameters'], outputs='submission_model', tags=['submission'])
+predict_node = node(func=predict, inputs=['submission_model', 'x_model_submission'], outputs='y_submission', tags=['submission'])

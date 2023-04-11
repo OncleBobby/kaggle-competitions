@@ -1,16 +1,16 @@
 
 parameters:
-  estimator_name: 'Random Forest'
+  estimator_name: 'Stacking_gb_b_et_rf_hgb'
   mode: calibration
   # mode: submission
   test_size: 0.33
   estimator_names:
-    - 'Dummy Classifier most_frequent'
+    # - 'Dummy Classifier most_frequent'
     # - 'Dummy Classifier prior'
     # - 'Dummy Classifier stratified'
     # - 'Dummy Classifier uniform'
     # - 'Dummy Classifier constant'
-    - 'Random Forest'
+    # - 'Random Forest'
     # - 'Random Forest Calibrated'
     # - 'Gradient Boosting - log_loss'
     # - 'Gradient Boosting - deviance'
@@ -21,7 +21,7 @@ parameters:
     # - 'Bagging'
     # - 'Bagging - Extra Trees'
     # - 'Bagging - Random Forest'
-    # - 'Bagging - Hist Gradient Boosting'
+    - 'Bagging - Hist Gradient Boosting'
     # - 'Bagging Calibrated'
     # - 'Extra Trees'
     # - 'Extra Trees Calibrated'
@@ -29,17 +29,15 @@ parameters:
     # - 'Decision Tree Calibrated'
     # - 'Hist Gradient Boosting'
     # - 'Hist Gradient Boosting - auto'
-    # - 'Hist Gradient Boosting Calibrated'
+    - 'Hist Gradient Boosting Calibrated'
+    # - 'Hist Gradient Boosting Calibrated - auto'
     # - 'MLP'
     # - 'MLP Calibrated'
     # - 'KNeighbors'
     # - 'Stacking_AB_GB_HGB'
-    # - 'Stacking 1'
-    # - 'Stacking 2'
-    # - 'Stacking 4'
-    # - 'Stacking Ref'
-    # - 'Stacking Ref'
-    # - Stacking_gb_b_et_rf_hgb
+    # - 'Stacking_gb_ab_b_et_rf_hgb_dt_mlp'
+    - 'Stacking_Ref_ab_b_et_rf_hgb_dt_mlp'
+    - Stacking_gb_b_et_rf_hgb
     # - Stacking_ab_b_et_rf_hgb_dt_mlp
     # - Stacking_b_et_rf_hgb_dt_mlp
     # - Stacking_et_rf_hgb_dt_mlp

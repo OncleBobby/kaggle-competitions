@@ -15,7 +15,7 @@ x_submission_raw:
   filepath: ./data/fraud/01_raw/X_test_8skS2ey.csv
 y_submission_sample_raw:
   type: pandas.CSVDataSet
-  filepath: ./data/fraud/01_raw/Y_train_2_XPXJDyy.csv
+  filepath: ./data/fraud/01_raw/Y_test_random_2.csv
 
 # 02_intermediate
 
@@ -75,9 +75,9 @@ submission_model:
   backend: pickle
 
 # 07_model_output
-y_prediction:
+y_submission:
   type: pandas.CSVDataSet
-  filepath: ./data/fraud/07_model_output/y_prediction.csv
+  filepath: ./data/fraud/07_model_output/y_submission.csv
 model_score_fraud:
   type: pandas.CSVDataSet
   filepath: ./data/fraud/07_model_output/model_score.csv
