@@ -18,6 +18,9 @@ def prepare_x(x, item_encoder, item_labels, make_encoder, make_labels, model_enc
     x_formated = _add_columns(\
         x_formated, item_encoder, item_labels, columns, 'item{0}', \
             {'Nbr_of_prod_purchas{0}': 'Nbr_item{0}', 'cash_price{0}': 'price_item{0}'}).copy()
+    x_formated = _add_columns(\
+        x_formated, make_encoder, make_labels, columns, 'item{0}', \
+            {'Nbr_of_prod_purchas{0}': 'Nbr_make{0}'}).copy()
     return x_formated[columns]
 
 # Private functions

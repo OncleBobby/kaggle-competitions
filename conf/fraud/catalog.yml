@@ -73,11 +73,18 @@ submission_model:
   type: pickle.PickleDataSet
   filepath: data/fraud/06_models/submission_model.pkl
   backend: pickle
+best_model_fraud:
+  type: pickle.PickleDataSet
+  filepath: data/fraud/06_models/best_model_fraud.pkl
+  backend: pickle
 
 # 07_model_output
 y_submission:
   type: pandas.CSVDataSet
   filepath: ./data/fraud/07_model_output/y_submission.csv
+y_predict_with_best_model:
+  type: pandas.CSVDataSet
+  filepath: ./data/fraud/07_model_output/y_predict_with_best_model.csv
 model_score_fraud:
   type: pandas.CSVDataSet
   filepath: ./data/fraud/07_model_output/model_score.csv

@@ -1,6 +1,6 @@
 
 parameters:
-  estimator_name: 'Stacking_ab_b_hgb'
+  estimator_name: 'ab_b_hgb'
   target_field: reod
   id_field: ID
   # mode: calibration
@@ -31,11 +31,11 @@ parameters:
     - r51
     - r52
   estimator_names:
-    - 'Dummy Classifier most_frequent'
-    # - 'Dummy Classifier prior'
-    # - 'Dummy Classifier stratified'
-    # - 'Dummy Classifier uniform'
-    # - 'Dummy Classifier constant'
+    - 'Dummy most_frequent'
+    # - 'Dummy prior'
+    # - 'Dummy stratified'
+    # - 'Dummy uniform'
+    # - 'Dummy constant'
     - 'Random Forest'
     # - 'Random Forest Calibrated'
     - 'Gradient Boosting - log_loss'
@@ -59,7 +59,7 @@ parameters:
     - 'Hist Gradient Boosting Calibrated'
     # - 'MLP'
     - 'MLP Calibrated'
-    # - 'Stacking_AB_GB_HGB'
+    # - 'AB_GB_HGB'
     # - 'Stacking 1'
     # - 'Stacking 2'
     # - 'Stacking 4'
