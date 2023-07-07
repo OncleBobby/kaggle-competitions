@@ -13,7 +13,7 @@ prepare_x_node = node(func=prepare_x, \
 prepare_y_node = node(func=prepare_y, inputs=['y_raw'], outputs='y_model', tags=['preparation'])
 split_train_set_node = node(func=split_train_set, inputs=['x_model', 'y_model', 'params:parameters'], \
     outputs=['x_train', 'y_train', 'x_test', 'y_test'], tags=['preparation'])
-calibrate_model_node = node(func=calibrate, inputs=['params:parameters', 'x_train', 'y_train', 'x_test', 'y_test'], \
+calibrate_model_node = node(func=calibrate, inputs=['x_train', 'y_train', 'x_test', 'y_test', 'previous_model_score_fraud'], \
     outputs=['best_model_fraud', 'best_model_fraud_name', 'model_score_fraud'], tags=['calibration'])
 prepare_x_submission_node = node(func=prepare_x, \
     inputs=['x_submission_raw', 'item_encoder', 'item_labels', 'make_encoder', 'make_labels', 'model_encoder', 'model_labels'],\
