@@ -2,6 +2,7 @@ import pandas, logging, datetime, numpy, itertools, pickle, os
 from sklearn.metrics import average_precision_score
 
 root_folder = f"./data/fraud/06_models/"
+model_scores_filename = f"./data/fraud/07_model_output/model_scores.csv"
 
 def calibrate_model(x_train, y_train, x_test, y_test, model_score_fraud):
 
@@ -39,6 +40,7 @@ def calibrate_model(x_train, y_train, x_test, y_test, model_score_fraud):
                 }
             lines.append(line)
             _save_model(name, estimator)
+            pandas.DataFrame(lines).to_csv(model_scores_filename, sep=',')
             logging.info(f'{i}/{nbr} - {current_score}\t{name} in {duration}')
         if current_score > best_score:
             best_score = current_score
@@ -90,23 +92,22 @@ def get_sklearn_estimators():
             'du': sklearn.dummy.DummyClassifier(strategy='uniform'),
             'dc': sklearn.dummy.DummyClassifier(strategy='constant', constant=0),
             'xgb': xgboost.XGBClassifier(),
-            # 'rf': sklearn.ensemble.RandomForestClassifier(),
-            # 'gbl': sklearn.ensemble.GradientBoostingClassifier(loss='log_loss'),
-            # 'gbd': sklearn.ensemble.GradientBoostingClassifier(loss='deviance'),
-            # 'gbe': sklearn.ensemble.GradientBoostingClassifier(loss='exponential'),
-            # 'gb': sklearn.ensemble.GradientBoostingClassifier(),
-            # 'ab': sklearn.ensemble.AdaBoostClassifier(),
-            # 'b': sklearn.ensemble.BaggingClassifier(),
-            # 'bet': sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.ExtraTreesClassifier()),
-            # 'brf': sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.RandomForestClassifier()),
-            # 'bhgb': sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.HistGradientBoostingClassifier()),
-            # 'et': sklearn.ensemble.ExtraTreesClassifier(),
-            # 'dt': sklearn.tree.DecisionTreeClassifier(),
-            # 'hgbl': sklearn.ensemble.HistGradientBoostingClassifier(loss='log_loss'),
-            # 'hgba': sklearn.ensemble.HistGradientBoostingClassifier(loss='auto'),
-            # 'hgbc': sklearn.ensemble.HistGradientBoostingClassifier(loss='categorical_crossentropy'),
-            # 'm': sklearn.neural_network.MLPClassifier(),
-            # 'k': sklearn.neighbors.KNeighborsClassifier()           
+            'rf': sklearn.ensemble.RandomForestClassifier(),
+            'gbl': sklearn.ensemble.GradientBoostingClassifier(loss='log_loss'),
+            'gbd': sklearn.ensemble.GradientBoostingClassifier(loss='deviance'),
+            'gbe': sklearn.ensemble.GradientBoostingClassifier(loss='exponential'),
+            'gb': sklearn.ensemble.GradientBoostingClassifier(),
+            'ab': sklearn.ensemble.AdaBoostClassifier(),
+            'b': sklearn.ensemble.BaggingClassifier(),
+            'bet': sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.ExtraTreesClassifier()),
+            'brf': sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.RandomForestClassifier()),
+            'bhgb': sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.HistGradientBoostingClassifier()),
+            'et': sklearn.ensemble.ExtraTreesClassifier(),
+            'dt': sklearn.tree.DecisionTreeClassifier(),
+            'hgbl': sklearn.ensemble.HistGradientBoostingClassifier(loss='log_loss'),
+            'hgba': sklearn.ensemble.HistGradientBoostingClassifier(loss='auto'),
+            'm': sklearn.neural_network.MLPClassifier(),
+            'k': sklearn.neighbors.KNeighborsClassifier()           
         }
     estimators = {}
     estimators.update(basic_estimators)
