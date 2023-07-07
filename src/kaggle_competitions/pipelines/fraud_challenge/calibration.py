@@ -26,8 +26,14 @@ def calibrate_model(x_train, y_train, x_test, y_test, model_score_fraud):
             logging.info(f'{i}/{nbr} - {current_score}\t{name} in {duration} - already estimated and would be skip')
         else:
             start_time = datetime.datetime.now()
-            estimator.fit(x_train.fillna(0), y_train)
-            y_predict = estimator.predict_proba(x_test.fillna(0))
+
+            saved_estimator = _load_if_exist(name)
+            if saved_estimator is None:
+                estimator.fit(x_train.fillna(0), y_train)
+                y_predict = estimator.predict_proba(x_test.fillna(0))
+            else:
+                logging.info(f'{i}/{nbr} - {current_score}\t{name} in {duration} - using previous fitted estimator')
+                y_predict = saved_estimator.predict_proba(x_test.fillna(0))
             current_score = score(y_test, y_predict)
             end_time = datetime.datetime.now()
             duration = (end_time - start_time)
@@ -45,7 +51,7 @@ def calibrate_model(x_train, y_train, x_test, y_test, model_score_fraud):
         if current_score > best_score:
             best_score = current_score
             best_name = name
-            best_model = _load(name)
+            best_model = _load_if_exist(name)
     logging.info(f'The winner is {best_name} with a score of {best_score} !')
     return best_model, best_name, pandas.DataFrame(lines)
 def score(y_true, y_pred_proba):
@@ -94,20 +100,20 @@ def get_sklearn_estimators():
             'xgb': xgboost.XGBClassifier(),
             'rf': sklearn.ensemble.RandomForestClassifier(),
             'gbl': sklearn.ensemble.GradientBoostingClassifier(loss='log_loss'),
-            'gbd': sklearn.ensemble.GradientBoostingClassifier(loss='deviance'),
-            'gbe': sklearn.ensemble.GradientBoostingClassifier(loss='exponential'),
-            'gb': sklearn.ensemble.GradientBoostingClassifier(),
-            'ab': sklearn.ensemble.AdaBoostClassifier(),
-            'b': sklearn.ensemble.BaggingClassifier(),
-            'bet': sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.ExtraTreesClassifier()),
-            'brf': sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.RandomForestClassifier()),
-            'bhgb': sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.HistGradientBoostingClassifier()),
-            'et': sklearn.ensemble.ExtraTreesClassifier(),
-            'dt': sklearn.tree.DecisionTreeClassifier(),
-            'hgbl': sklearn.ensemble.HistGradientBoostingClassifier(loss='log_loss'),
-            'hgba': sklearn.ensemble.HistGradientBoostingClassifier(loss='auto'),
-            'm': sklearn.neural_network.MLPClassifier(),
-            'k': sklearn.neighbors.KNeighborsClassifier()           
+            # 'gbd': sklearn.ensemble.GradientBoostingClassifier(loss='deviance'),
+            # 'gbe': sklearn.ensemble.GradientBoostingClassifier(loss='exponential'),
+            # 'gb': sklearn.ensemble.GradientBoostingClassifier(),
+            # 'ab': sklearn.ensemble.AdaBoostClassifier(),
+            # 'b': sklearn.ensemble.BaggingClassifier(),
+            # 'bet': sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.ExtraTreesClassifier()),
+            # 'brf': sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.RandomForestClassifier()),
+            # 'bhgb': sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.HistGradientBoostingClassifier()),
+            # 'et': sklearn.ensemble.ExtraTreesClassifier(),
+            # 'dt': sklearn.tree.DecisionTreeClassifier(),
+            # 'hgbl': sklearn.ensemble.HistGradientBoostingClassifier(loss='log_loss'),
+            # 'hgba': sklearn.ensemble.HistGradientBoostingClassifier(loss='auto'),
+            # 'm': sklearn.neural_network.MLPClassifier(),
+            # 'k': sklearn.neighbors.KNeighborsClassifier()           
         }
     estimators = {}
     estimators.update(basic_estimators)
@@ -147,6 +153,8 @@ def convert_to_short_name(name):
 def _save_model(name, model):
     filename = os.path.join(root_folder, f'{name}.pkl')
     pickle.dump(model, open(filename, 'wb'))
-def _load(name):
+def _load_if_exist(name):
     filename = os.path.join(root_folder, f'{name}.pkl')
-    return pickle.load(open(filename, 'rb'))
+    if os.path.exists(filename):
+        return pickle.load(open(filename, 'rb'))
+    return None
