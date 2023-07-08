@@ -1,14 +1,9 @@
 import pandas, logging, datetime, numpy, itertools, pickle, os
 from sklearn.metrics import average_precision_score
 
+def calibrate_model(x_train, y_train, x_test, y_test, root_folder):
 
-root_folder = './'
-# root_folder = '/content/drive/MyDrive/Kaggle/kaggle-competitions/'
-model_folder = os.path.join(root_folder, f'./data/fraud/06_models/')
-model_scores_filename = os.path.join(root_folder, f'./data/fraud/07_model_output/model_scores.csv')
-
-def calibrate_model(x_train, y_train, x_test, y_test):
-
+    model_scores_filename = os.path.join(root_folder, f'data/fraud/07_model_output/model_scores.csv')
     model_score_fraud = pandas.read_csv(model_scores_filename, sep=',').set_index('index')
 
     lines = [r.to_dict() for i, r in model_score_fraud.iterrows()]
@@ -32,7 +27,7 @@ def calibrate_model(x_train, y_train, x_test, y_test):
         else:
             start_time = datetime.datetime.now()
 
-            saved_estimator = _load_if_exist(name)
+            saved_estimator = _load_if_exist(name, root_folder)
             if saved_estimator is None:
                 estimator.fit(x_train.fillna(0), y_train)
                 y_predict = estimator.predict_proba(x_test.fillna(0))
@@ -50,13 +45,13 @@ def calibrate_model(x_train, y_train, x_test, y_test):
                 'score': current_score
                 }
             lines.append(line)
-            _save_model(name, estimator)
+            _save_model(name, estimator, root_folder)
             pandas.DataFrame(lines).to_csv(model_scores_filename, sep=',')
             logging.info(f'{i}/{nbr} - {current_score}\t{name} in {duration}')
         if current_score > best_score:
             best_score = current_score
             best_name = name
-            best_model = _load_if_exist(name)
+            best_model = _load_if_exist(name, root_folder)
     logging.info(f'The winner is {best_name} with a score of {best_score} !')
     return best_model, best_name, pandas.DataFrame(lines)
 def score(y_true, y_pred_proba):
@@ -156,10 +151,12 @@ def get_keras_estimators():
     return estimators
 def convert_to_short_name(name):
     return ''.join([s[0].lower() for s in name.split(' ')])
-def _save_model(name, model):
+def _save_model(name, model, root_folder):
+    model_folder = os.path.join(root_folder, f'./data/fraud/06_models/')
     filename = os.path.join(model_folder, f'{name}.pkl')
     pickle.dump(model, open(filename, 'wb'))
-def _load_if_exist(name):
+def _load_if_exist(name, root_folder):
+    model_folder = os.path.join(root_folder, f'./data/fraud/06_models/')    
     filename = os.path.join(model_folder, f'{name}.pkl')
     if os.path.exists(filename):
         return pickle.load(open(filename, 'rb'))

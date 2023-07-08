@@ -1,4 +1,5 @@
-
+root_folder: './'
+# root_folder: '/content/drive/MyDrive/Kaggle/kaggle-competitions/'
 parameters:
   estimator_name: 'ab_b_et_rf_hgb_dt_mlp_x'
   mode: calibration
