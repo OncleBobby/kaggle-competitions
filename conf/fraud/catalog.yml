@@ -85,9 +85,3 @@ y_submission:
 y_predict_with_best_model:
   type: pandas.CSVDataSet
   filepath: ./data/fraud/07_model_output/y_predict_with_best_model.csv
-previous_model_score_fraud:
-  type: pandas.CSVDataSet
-  filepath: ./data/fraud/07_model_output/model_scores.csv
-model_score_fraud:
-  type: pandas.CSVDataSet
-  filepath: ./data/fraud/07_model_output/model_scores.csv

@@ -7,7 +7,9 @@ root_folder = './'
 model_folder = os.path.join(root_folder, f'./data/fraud/06_models/')
 model_scores_filename = os.path.join(root_folder, f'./data/fraud/07_model_output/model_scores.csv')
 
-def calibrate_model(x_train, y_train, x_test, y_test, model_score_fraud):
+def calibrate_model(x_train, y_train, x_test, y_test):
+
+    model_score_fraud = pandas.read_csv(model_scores_filename, sep=',').set_index('index')
 
     lines = [r.to_dict() for i, r in model_score_fraud.iterrows()]
     already_estimated = {r['name']: r for i, r in model_score_fraud.iterrows()}
