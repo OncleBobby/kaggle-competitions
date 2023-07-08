@@ -1,8 +1,11 @@
 import pandas, logging, datetime, numpy, itertools, pickle, os
 from sklearn.metrics import average_precision_score
 
-root_folder = f"./data/fraud/06_models/"
-model_scores_filename = f"./data/fraud/07_model_output/model_scores.csv"
+
+root_folder = './'
+# root_folder = '/content/drive/MyDrive/Kaggle/kaggle-competitions/'
+model_folder = os.path.join(root_folder, f'./data/fraud/06_models/')
+model_scores_filename = os.path.join(root_folder, f'./data/fraud/07_model_output/model_scores.csv')
 
 def calibrate_model(x_train, y_train, x_test, y_test, model_score_fraud):
 
@@ -32,7 +35,7 @@ def calibrate_model(x_train, y_train, x_test, y_test, model_score_fraud):
                 estimator.fit(x_train.fillna(0), y_train)
                 y_predict = estimator.predict_proba(x_test.fillna(0))
             else:
-                logging.info(f'{i}/{nbr} - {current_score}\t{name} in {duration} - using previous fitted estimator')
+                logging.info(f'{i}/{nbr} - {name} - using previous fitted estimator')
                 y_predict = saved_estimator.predict_proba(x_test.fillna(0))
             current_score = score(y_test, y_predict)
             end_time = datetime.datetime.now()
@@ -92,28 +95,29 @@ def get_sklearn_estimators():
     import xgboost
     
     basic_estimators = {
-            'dmf': sklearn.dummy.DummyClassifier(strategy='most_frequent'),
-            'dp': sklearn.dummy.DummyClassifier(strategy='prior'),
-            'ds': sklearn.dummy.DummyClassifier(strategy='stratified'),
-            'du': sklearn.dummy.DummyClassifier(strategy='uniform'),
-            'dc': sklearn.dummy.DummyClassifier(strategy='constant', constant=0),
+            # 'dmf': sklearn.dummy.DummyClassifier(strategy='most_frequent'),
+            # 'dp': sklearn.dummy.DummyClassifier(strategy='prior'),
+            # 'ds': sklearn.dummy.DummyClassifier(strategy='stratified'),
+            # 'du': sklearn.dummy.DummyClassifier(strategy='uniform'),
+            # 'dc': sklearn.dummy.DummyClassifier(strategy='constant', constant=0),
             'xgb': xgboost.XGBClassifier(),
             'rf': sklearn.ensemble.RandomForestClassifier(),
-            'gbl': sklearn.ensemble.GradientBoostingClassifier(loss='log_loss'),
+            # 'gbl': sklearn.ensemble.GradientBoostingClassifier(loss='log_loss'),
             # 'gbd': sklearn.ensemble.GradientBoostingClassifier(loss='deviance'),
             # 'gbe': sklearn.ensemble.GradientBoostingClassifier(loss='exponential'),
-            # 'gb': sklearn.ensemble.GradientBoostingClassifier(),
-            # 'ab': sklearn.ensemble.AdaBoostClassifier(),
-            # 'b': sklearn.ensemble.BaggingClassifier(),
+            'gb': sklearn.ensemble.GradientBoostingClassifier(),
+            'ab': sklearn.ensemble.AdaBoostClassifier(),
+            'b': sklearn.ensemble.BaggingClassifier(),
             # 'bet': sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.ExtraTreesClassifier()),
             # 'brf': sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.RandomForestClassifier()),
             # 'bhgb': sklearn.ensemble.BaggingClassifier(estimator=sklearn.ensemble.HistGradientBoostingClassifier()),
             # 'et': sklearn.ensemble.ExtraTreesClassifier(),
             # 'dt': sklearn.tree.DecisionTreeClassifier(),
+            # 'hgb': sklearn.ensemble.HistGradientBoostingClassifier(),
             # 'hgbl': sklearn.ensemble.HistGradientBoostingClassifier(loss='log_loss'),
-            # 'hgba': sklearn.ensemble.HistGradientBoostingClassifier(loss='auto'),
+            'hgba': sklearn.ensemble.HistGradientBoostingClassifier(loss='auto'),
             # 'm': sklearn.neural_network.MLPClassifier(),
-            # 'k': sklearn.neighbors.KNeighborsClassifier()           
+            'k': sklearn.neighbors.KNeighborsClassifier()           
         }
     estimators = {}
     estimators.update(basic_estimators)
@@ -128,8 +132,8 @@ def get_sklearn_estimators():
                         (name, sklearn.calibration.CalibratedClassifierCV(basic_estimators[name], cv=5, method='isotonic'))
                         for name in names
                     ])
-    # estimators.update(calibrated_estimators)
-    # estimators.update(stacking_estimators)
+    estimators.update(calibrated_estimators)
+    estimators.update(stacking_estimators)
     for k in estimators.keys():
         estimators[k] = SklearnEstimator(estimators[k])
     return estimators
@@ -151,10 +155,10 @@ def get_keras_estimators():
 def convert_to_short_name(name):
     return ''.join([s[0].lower() for s in name.split(' ')])
 def _save_model(name, model):
-    filename = os.path.join(root_folder, f'{name}.pkl')
+    filename = os.path.join(model_folder, f'{name}.pkl')
     pickle.dump(model, open(filename, 'wb'))
 def _load_if_exist(name):
-    filename = os.path.join(root_folder, f'{name}.pkl')
+    filename = os.path.join(model_folder, f'{name}.pkl')
     if os.path.exists(filename):
         return pickle.load(open(filename, 'rb'))
     return None
