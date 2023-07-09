@@ -26,7 +26,6 @@ def calibrate_model(x_train, y_train, x_test, y_test, root_folder):
             logging.info(f'{i}/{nbr} - {current_score}\t{name} in {duration} - already estimated and would be skip')
         else:
             start_time = datetime.datetime.now()
-
             saved_estimator = _load_if_exist(name, root_folder)
             if saved_estimator is None:
                 estimator.fit(x_train.fillna(0), y_train)
@@ -46,7 +45,7 @@ def calibrate_model(x_train, y_train, x_test, y_test, root_folder):
                 }
             lines.append(line)
             _save_model(name, estimator, root_folder)
-            pandas.DataFrame(lines).to_csv(model_scores_filename, sep=',')
+            pandas.DataFrame(lines).set_index('index').to_csv(model_scores_filename, sep=',')
             logging.info(f'{i}/{nbr} - {current_score}\t{name} in {duration}')
         if current_score > best_score:
             best_score = current_score
