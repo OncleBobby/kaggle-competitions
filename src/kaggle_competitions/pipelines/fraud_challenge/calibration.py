@@ -45,7 +45,9 @@ def calibrate_model(x_train, y_train, x_test, y_test, root_folder):
                 }
             lines.append(line)
             _save_model(name, estimator, root_folder)
-            pandas.DataFrame(lines).set_index('index').to_csv(model_scores_filename, sep=',')
+            df = pandas.DataFrame(lines)
+            df.index.name = 'index'
+            df.to_csv(model_scores_filename, sep=',')
             logging.info(f'{i}/{nbr} - {current_score}\t{name} in {duration}')
         if current_score > best_score:
             best_score = current_score
